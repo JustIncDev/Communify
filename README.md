@@ -1,16 +1,24 @@
-# communify
+# Communify
 
-A new Flutter project.
+Communify is a community-oriented social platform built with Flutter, designed to foster communication and interaction within groups. This project is in the early stages of development.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+To get a local copy up and running:
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Clone the repo:
+    ```bash
+    git clone https://github.com/JustIncDev/Communify.git
+    ```
+2. Change directory into Communify:
+    ```bash
+    cd Communify
+    ```
+3. Install Flutter dependencies:
+    ```bash
+    flutter pub get
+    ```
+To run the application, launch the emulator and run:
+```bash
+flutter run
+```

@@ -1,0 +1,40 @@
+name: log_service
+description: A new Flutter package project.
+version: 0.0.1
+homepage:
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.3.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  #Log tools
+  firebase_crashlytics: ^3.3.1
+  alice:
+    path: alice
+  firebase_analytics: ^10.4.1
+  firebase_core: ^2.13.0
+  l: ^4.0.0
+
+  #Tools
+  synchronized: ^3.1.0
+
+  #Dependency injection
+  provider: ^6.0.5
+
+  #File proccessing and sharing
+  share_plus: ^7.0.1
+  path_provider: ^2.0.15
+
+  #Network
+  dio: ^5.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:

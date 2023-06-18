@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1086098259161",
+    "project_id": "communify-694a8",
+    "storage_bucket": "communify-694a8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1086098259161:android:2dc1f7a9298784bf5752c8",
+        "android_client_info": {
+          "package_name": "com.app.communify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1086098259161-hhckoakkp6ac7bcj8q5hmefd2iu6sb08.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGkxG236L2fPQgYiYEiKKbEy7JYZz-IME"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1086098259161-hhckoakkp6ac7bcj8q5hmefd2iu6sb08.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1086098259161-e2q7r2b92e086vimeshunef178p7ds1j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.app.communify"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

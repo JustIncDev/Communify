@@ -1,6 +1,6 @@
 # Communify
 
-Communify is a community-oriented social platform built with Flutter, designed to foster communication and interaction within groups. This project is in the early stages of development.
+Communify is a community-oriented social platform built with Flutter. This project is in the early stages of development.
 
 ## Getting Started
 

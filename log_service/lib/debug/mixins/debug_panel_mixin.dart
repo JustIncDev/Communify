@@ -7,10 +7,10 @@ mixin DebugPanelMixin {
   ValueNotifier<bool> isOverlayVisible = ValueNotifier(false);
 
   void initDebugPanelOverlay(
-    BuildContext context,
-    VoidCallback shareLogsCallback,
-    VoidCallback openDebugServicesCallback,
-  ) {
+    BuildContext context, {
+    required VoidCallback shareLogsCallback,
+    required VoidCallback openDebugServicesCallback,
+  }) {
     overlayEntry = _initDebugOverlay(shareLogsCallback, openDebugServicesCallback);
     overlayState = Overlay.of(context);
 

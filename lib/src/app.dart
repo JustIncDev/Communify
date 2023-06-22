@@ -4,7 +4,7 @@ import 'assets/themes/theme_data.dart';
 import 'config/app_config.dart';
 import 'config/environment/environment.dart';
 import 'global/common/service/theme/theme_service.dart';
-import 'global/common/widgets/debug/debug_overlay_widget.dart';
+import 'global/common/widgets/debug/debug_route_widget.dart';
 import 'global/common/widgets/di_scope/di_scope.dart';
 import 'global/di/app_scope.dart';
 import 'global/storage/config_storage/config_storage_impl.dart';
@@ -54,18 +54,9 @@ class _CommunifyAppState extends State<CommunifyApp> {
             darkTheme: AppThemeData.darkTheme,
             themeMode: _themeService.currentThemeMode,
             routerConfig: _scope.router.routerConfig,
-            builder: (context, child) => Navigator(
-              onGenerateRoute: (settings) => MaterialPageRoute<void>(
-                builder: (context) => Overlay(
-                  initialEntries: [
-                    OverlayEntry(
-                      builder: (context) {
-                        return DebugOverlayWidget(scope: widget.appScope, child: child);
-                      },
-                    ),
-                  ],
-                ),
-              ),
+            builder: (_, child) => DebugPanelRouteWidget(
+              appScope: _scope,
+              child: child,
             ),
           );
         },

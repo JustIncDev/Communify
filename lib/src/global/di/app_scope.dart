@@ -17,8 +17,9 @@ class AppScope implements IAppScope {
 
   late final Dio _dio;
   late final IThemeService _themeService;
-  late final Alice _alice;
   late final AppRouter _router;
+
+  static late final Alice _alice;
 
   @override
   late VoidCallback applicationRebuilder;
@@ -42,9 +43,6 @@ class AppScope implements IAppScope {
     /// List interceptor. Fill in as needed.
     final additionalInterceptors = <Interceptor>[];
     _dio = _initDio(additionalInterceptors);
-
-    /// Initialization LogServiceManager
-    _initLoggerServices();
 
     /// Router initialization
     _router = AppRouter.instance(key: _alice.getNavigatorKey());
@@ -91,11 +89,13 @@ class AppScope implements IAppScope {
   }
 
   /// Initializes logging services
-  void _initLoggerServices() {
+  static Future<void> initLoggerServices() async {
     final config = Environment<AppConfig>.instance();
 
     final aliceLoggerService = AliceLoggerService(enabled: config.isDebug);
     _alice = aliceLoggerService.aliceInstance;
+
+    await FirebaseService.initApplication(enabled: config.isRelease);
 
     LogServiceManager.init([
       aliceLoggerService,

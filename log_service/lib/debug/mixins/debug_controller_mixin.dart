@@ -8,8 +8,7 @@ mixin DebugControllerMixin {
     VoidCallback? onCloseButtonPressed,
     ProxyUpdateCallback? proxyUpdateCallback,
   }) {
-    Navigator.push(
-      context,
+    Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => DebugPanelScreen(
           alice: alice,

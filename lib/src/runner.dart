@@ -9,23 +9,25 @@ import 'global/di/app_scope.dart';
 
 /// App launch.
 Future<void> run() async {
+  await runZonedGuarded(
+    initializeAndRunApp,
+    handleError,
+  );
+}
+
+Future<void> initializeAndRunApp() async {
   /// It must be called so that the orientation does not fall.
   WidgetsFlutterBinding.ensureInitialized();
 
   /// Fix orientation.
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  _runApp();
-}
 
-void _runApp() {
-  runZonedGuarded<Future<void>>(
-    () async {
-      final scope = AppScope();
-      await scope.initTheme();
-      runApp(CommunifyApp(scope));
-    },
-    handleError,
-  );
+  /// Initialization LogServiceManager
+  await AppScope.initLoggerServices();
+
+  final scope = AppScope();
+  await scope.initTheme();
+  runApp(CommunifyApp(scope));
 }
 
 void handleError(Object error, StackTrace stackTrace) {

@@ -4,6 +4,7 @@ import 'assets/themes/theme_data.dart';
 import 'config/app_config.dart';
 import 'config/environment/environment.dart';
 import 'global/common/service/theme/theme_service.dart';
+import 'global/common/widgets/debug/debug_route_widget.dart';
 import 'global/common/widgets/di_scope/di_scope.dart';
 import 'global/di/app_scope.dart';
 import 'global/storage/config_storage/config_storage_impl.dart';
@@ -20,7 +21,6 @@ class CommunifyApp extends StatefulWidget {
   _CommunifyAppState createState() => _CommunifyAppState();
 }
 
-// TODO: Add mixins from log_service
 class _CommunifyAppState extends State<CommunifyApp> {
   late IAppScope _scope;
   late IThemeService _themeService;
@@ -54,6 +54,10 @@ class _CommunifyAppState extends State<CommunifyApp> {
             darkTheme: AppThemeData.darkTheme,
             themeMode: _themeService.currentThemeMode,
             routerConfig: _scope.router.routerConfig,
+            builder: (_, child) => DebugPanelRouteWidget(
+              appScope: _scope,
+              child: child,
+            ),
           );
         },
       ),

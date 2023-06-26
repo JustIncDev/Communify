@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 
 /// App text style.
 enum AppTextStyle {
-  regular14(TextStyle(fontSize: 14, height: 1.40)),
-  regular16(TextStyle(fontSize: 16, height: 1.24)),
+  regular15(TextStyle(fontSize: 15, height: 1.2, letterSpacing: -0.32)),
+  regular20(TextStyle(fontSize: 20, height: 1.2, letterSpacing: -0.32)),
 
-  medium14(TextStyle(fontSize: 14, height: 1.40, fontWeight: FontWeight.w500)),
-  medium16(TextStyle(fontSize: 16, height: 1.24, fontWeight: FontWeight.w500)),
+  medium15(TextStyle(fontSize: 15, height: 1.2, letterSpacing: -0.32, fontWeight: FontWeight.w500)),
 
-  bold14(TextStyle(fontSize: 14, height: 1.40, fontWeight: FontWeight.w700)),
-  bold16(TextStyle(fontSize: 16, height: 1.24, fontWeight: FontWeight.w700));
+  bold12(TextStyle(fontSize: 12, height: 1.2, letterSpacing: -0.32)),
+  bold20(TextStyle(fontSize: 20, height: 1.2, letterSpacing: -0.32)),
+  bold30(TextStyle(fontSize: 30, height: 1.2, letterSpacing: -0.32, fontWeight: FontWeight.w800));
 
   final TextStyle value;
 

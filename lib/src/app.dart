@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
+import '../generated/l10n.dart';
 import 'assets/themes/theme_data.dart';
 import 'config/app_config.dart';
 import 'config/environment/environment.dart';
@@ -58,6 +60,15 @@ class _CommunifyAppState extends State<CommunifyApp> {
               appScope: _scope,
               child: child,
             ),
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              S.delegate,
+            ],
+            supportedLocales: const [
+              Locale('en'),
+            ],
           );
         },
       ),

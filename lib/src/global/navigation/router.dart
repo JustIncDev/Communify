@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../features/home/presentation/home_screen.dart';
+import '../../features/registration/presentation/registration_screen.dart';
+import '../../features/registration/presentation/pages/splash_widget.dart';
 
 /// Main point of the application navigation
 class AppRouter {
@@ -18,10 +19,16 @@ class AppRouter {
               path: '/',
               pageBuilder: (context, state) => MaterialPage<void>(
                 key: state.pageKey,
-                child: const HomeScreen(), // change this to your actual home screen
+                child: const RegistrationScreen(),
               ),
             ),
-            // add more routes here...
+            // GoRoute(
+            //   path: '/splash',
+            //   pageBuilder: (context, state) => MaterialPage<void>(
+            //     key: state.pageKey,
+            //     child: SplashScreen(),
+            //   ),
+            // )
           ],
         );
 

@@ -1,0 +1,12 @@
+{
+  "@@locale": "en",
+  "hi": "Hi",
+  "communities": "Communities powered by",
+  "email": "Email",
+  "continue_title": "Continue",
+  "or": "or",
+  "external_wallet": "External Wallet",
+  "select_wallet": "Select your wallet",
+  "metamask": "MetaMask",
+  "wallet_connect": "WalletConnect"
+}

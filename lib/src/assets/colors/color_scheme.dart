@@ -45,33 +45,33 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
 
   /// Base light theme of the app.
   AppColorScheme.light()
-      : primary = AppColors.cornflowerBlue.value,
-        onPrimary = AppColors.white.value,
-        secondary = AppColors.purple.value,
-        onSecondary = AppColors.white.value,
-        surface = AppColors.white.value,
-        onSurface = AppColors.raisinBlack.value,
-        background = AppColors.solitude.value,
-        onBackground = AppColors.raisinBlack.value,
-        error = AppColors.freeSpeechRed.value,
-        onError = AppColors.white.value,
-        selectedItem = AppColors.cornflowerBlue.value,
-        unselectedItem = AppColors.darkGrey.value;
+      : primary = AppColors.blueCharcoal.value,
+        onPrimary = AppColors.whiteSmoke.value,
+        secondary = AppColors.pumpkin.value,
+        onSecondary = AppColors.whiteSmoke.value,
+        surface = AppColors.whiteSmoke.value,
+        onSurface = AppColors.whiteSmoke.value,
+        background = AppColors.whiteSmoke.value,
+        onBackground = AppColors.whiteSmoke.value,
+        error = AppColors.fireBrick.value,
+        onError = AppColors.whiteSmoke.value,
+        selectedItem = AppColors.whiteSmoke.value,
+        unselectedItem = AppColors.whiteSmoke.value;
 
   /// Dark theme of the app.
   AppColorScheme.dark()
-      : primary = AppColors.prussianBlue.value,
-        onPrimary = AppColors.darkGrey.value,
-        secondary = AppColors.oxfordBlue.value,
-        onSecondary = AppColors.darkGrey.value,
-        surface = AppColors.oxfordBlue.value,
-        onSurface = AppColors.darkGrey.value,
-        background = AppColors.jaguar.value,
-        onBackground = AppColors.darkGrey.value,
-        error = AppColors.freeSpeechRed.value,
-        onError = AppColors.darkGrey.value,
-        selectedItem = AppColors.horizon.value,
-        unselectedItem = AppColors.darkGrey.value;
+      : primary = AppColors.blueCharcoal.value,
+        onPrimary = AppColors.whiteSmoke.value,
+        secondary = AppColors.pumpkin.value,
+        onSecondary = AppColors.whiteSmoke.value,
+        surface = AppColors.whiteSmoke.value,
+        onSurface = AppColors.whiteSmoke.value,
+        background = AppColors.whiteSmoke.value,
+        onBackground = AppColors.whiteSmoke.value,
+        error = AppColors.fireBrick.value,
+        onError = AppColors.whiteSmoke.value,
+        selectedItem = AppColors.whiteSmoke.value,
+        unselectedItem = AppColors.whiteSmoke.value;
 
   const AppColorScheme._({
     required this.primary,

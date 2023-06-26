@@ -7,19 +7,17 @@ import 'package:flutter/material.dart';
 /// http://www.color-blindness.com/color-name-hue/.
 
 enum AppColors {
-  cornflowerBlue(Color(0xFF5E9EED)),
-  lightCyan(Color(0xFFC9E9FF)),
-  prussianBlue(Color(0xFF000F3D)),
-  jaguar(Color(0xFF181719)),
-  oxfordBlue(Color(0xFF263238)),
-  horizon(Color(0xFF428989)),
-  purple(Color(0xFF7A3E93)),
-  freeSpeechRed(Color(0xFFB00000)),
-  white(Color(0xFFFFFFFF)),
-  pastelWhite(Color(0xFFFAFAFA)),
-  solitude(Color(0xFFE5E8EB)),
-  darkGrey(Color(0xFFA7A7A7)),
-  raisinBlack(Color(0xFF212121));
+  blueCharcoal(Color(0xFF23272B)),
+  pumpkin(Color(0xFFFE8717)),
+  whiteSmoke(Color(0xFFF2F2F2)),
+  fireBrick(Color(0xFFB3261E)),
+  gainsboro(Color(0xFFD9D9D9)),
+  grape(Color(0xCC49454F)),
+  swamp(Color(0xFF1A1D1D)),
+  darkSlate(Color(0xFF475050)),
+  suvaGrey(Color(0xFF8F8F8F)),
+  black(Color(0xFF000000)),
+  summerSky(Color(0xFF3C8AD9));
 
   final Color value;
 

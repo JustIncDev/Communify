@@ -139,6 +139,446 @@ class S {
       args: [],
     );
   }
+
+  /// `Choose one`
+  String get choose_one {
+    return Intl.message(
+      'Choose one',
+      name: 'choose_one',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start a `
+  String get start_a {
+    return Intl.message(
+      'Start a ',
+      name: 'start_a',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Communify`
+  String get communify {
+    return Intl.message(
+      'Communify',
+      name: 'communify',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ` group`
+  String get group {
+    return Intl.message(
+      ' group',
+      name: 'group',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Join a`
+  String get join_a {
+    return Intl.message(
+      'Join a',
+      name: 'join_a',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Already have an account?`
+  String get already_have_account {
+    return Intl.message(
+      'Already have an account?',
+      name: 'already_have_account',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `First name`
+  String get first_name {
+    return Intl.message(
+      'First name',
+      name: 'first_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last name`
+  String get last_name {
+    return Intl.message(
+      'Last name',
+      name: 'last_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Jane`
+  String get first_name_hint {
+    return Intl.message(
+      'Jane',
+      name: 'first_name_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Doe`
+  String get last_name_hint {
+    return Intl.message(
+      'Doe',
+      name: 'last_name_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Username`
+  String get username {
+    return Intl.message(
+      'Username',
+      name: 'username',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `@username`
+  String get username_hint {
+    return Intl.message(
+      '@username',
+      name: 'username_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date of birth`
+  String get date_of_birth {
+    return Intl.message(
+      'Date of birth',
+      name: 'date_of_birth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `MM/DD/YYYY`
+  String get date_of_birth_hint {
+    return Intl.message(
+      'MM/DD/YYYY',
+      name: 'date_of_birth_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `By selecting Agree and continue below,`
+  String get first_agreement_row {
+    return Intl.message(
+      'By selecting Agree and continue below,',
+      name: 'first_agreement_row',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I agree to`
+  String get i_agree_to {
+    return Intl.message(
+      'I agree to',
+      name: 'i_agree_to',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Terms of Services`
+  String get terms_of_services {
+    return Intl.message(
+      'Terms of Services',
+      name: 'terms_of_services',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `and`
+  String get and {
+    return Intl.message(
+      'and',
+      name: 'and',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Privacy Policy`
+  String get privacy_policy {
+    return Intl.message(
+      'Privacy Policy',
+      name: 'privacy_policy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create your profile`
+  String get create_your_profile {
+    return Intl.message(
+      'Create your profile',
+      name: 'create_your_profile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Agree & continue`
+  String get agree_and_continue {
+    return Intl.message(
+      'Agree & continue',
+      name: 'agree_and_continue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tell us about your group?`
+  String get tell_us_about_your_group {
+    return Intl.message(
+      'Tell us about your group?',
+      name: 'tell_us_about_your_group',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Entrepreneur / Business`
+  String get entrepreneur {
+    return Intl.message(
+      'Entrepreneur / Business',
+      name: 'entrepreneur',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Non-profit orginasation`
+  String get non_profit {
+    return Intl.message(
+      'Non-profit orginasation',
+      name: 'non_profit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Teacher / Coach`
+  String get teacher {
+    return Intl.message(
+      'Teacher / Coach',
+      name: 'teacher',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Filmmaker / Videographer`
+  String get filmmaker {
+    return Intl.message(
+      'Filmmaker / Videographer',
+      name: 'filmmaker',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Content Creator`
+  String get content_creator {
+    return Intl.message(
+      'Content Creator',
+      name: 'content_creator',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Podcaster`
+  String get podcaster {
+    return Intl.message(
+      'Podcaster',
+      name: 'podcaster',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `NFT / DAO / Blockchain`
+  String get nft_dao_blockchain {
+    return Intl.message(
+      'NFT / DAO / Blockchain',
+      name: 'nft_dao_blockchain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Blogger`
+  String get blogger {
+    return Intl.message(
+      'Blogger',
+      name: 'blogger',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Events / Festival`
+  String get events {
+    return Intl.message(
+      'Events / Festival',
+      name: 'events',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Influencer`
+  String get influencer {
+    return Intl.message(
+      'Influencer',
+      name: 'influencer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Musician / Record Label`
+  String get musician {
+    return Intl.message(
+      'Musician / Record Label',
+      name: 'musician',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gaming / eSports`
+  String get gaming {
+    return Intl.message(
+      'Gaming / eSports',
+      name: 'gaming',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Other`
+  String get other {
+    return Intl.message(
+      'Other',
+      name: 'other',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Describe`
+  String get describe {
+    return Intl.message(
+      'Describe',
+      name: 'describe',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Skip`
+  String get skip {
+    return Intl.message(
+      'Skip',
+      name: 'skip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose a name for your group`
+  String get choose_name_group {
+    return Intl.message(
+      'Choose a name for your group',
+      name: 'choose_name_group',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your Network`
+  String get your_network {
+    return Intl.message(
+      'Your Network',
+      name: 'your_network',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can always change it later!`
+  String get you_can_always_change {
+    return Intl.message(
+      'You can always change it later!',
+      name: 'you_can_always_change',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Activate push notifications`
+  String get activate_push_notifications {
+    return Intl.message(
+      'Activate push notifications',
+      name: 'activate_push_notifications',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Decide later`
+  String get decide_later {
+    return Intl.message(
+      'Decide later',
+      name: 'decide_later',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You’re all set!`
+  String get you_all_set {
+    return Intl.message(
+      'You’re all set!',
+      name: 'you_all_set',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Welcome to`
+  String get welcome_to {
+    return Intl.message(
+      'Welcome to',
+      name: 'welcome_to',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

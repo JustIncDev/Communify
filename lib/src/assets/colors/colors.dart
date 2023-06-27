@@ -17,7 +17,8 @@ enum AppColors {
   darkSlate(Color(0xFF475050)),
   suvaGrey(Color(0xFF8F8F8F)),
   black(Color(0xFF000000)),
-  summerSky(Color(0xFF3C8AD9));
+  summerSky(Color(0xFF3C8AD9)),
+  grey(Color(0xFF797979));
 
   final Color value;
 

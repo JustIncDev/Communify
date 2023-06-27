@@ -86,5 +86,9 @@ flutter:
           weight: 500
         - asset: assets/fonts/Montserrat-Bold.ttf
           weight: 800
+    - family: Varyloop
+      fonts:
+        - asset: assets/fonts/Varyloop-Solid.otf
+          weight: 800
 flutter_intl:
   enabled: true

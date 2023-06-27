@@ -15,6 +15,14 @@ class $AssetsImagesGen {
   /// File path: assets/images/Apple.png
   AssetGenImage get apple => const AssetGenImage('assets/images/Apple.png');
 
+  /// File path: assets/images/Checkmark.png
+  AssetGenImage get checkmark =>
+      const AssetGenImage('assets/images/Checkmark.png');
+
+  /// File path: assets/images/Chevron Left.png
+  AssetGenImage get chevronLeft =>
+      const AssetGenImage('assets/images/Chevron Left.png');
+
   /// File path: assets/images/Communify.png
   AssetGenImage get communify =>
       const AssetGenImage('assets/images/Communify.png');
@@ -37,8 +45,17 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/Wallet-Connect.png');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [apple, communify, discord, google, metamask, twitter, walletConnect];
+  List<AssetGenImage> get values => [
+        apple,
+        checkmark,
+        chevronLeft,
+        communify,
+        discord,
+        google,
+        metamask,
+        twitter,
+        walletConnect
+      ];
 }
 
 class AppAssets {

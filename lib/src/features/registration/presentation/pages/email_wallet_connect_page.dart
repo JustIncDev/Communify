@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../assets/colors/colors.dart';
 import '../../../../assets/text/text_extention.dart';
-import '../../../../global/common/widgets/gradient/gradient_box_border.dart';
+import '../../../../global/common/widgets/base_container.dart';
 import '../../../../global/common/widgets/gradient/gradient_outline_input_border.dart';
+import '../../../../global/common/widgets/primary_text_field.dart';
 import '../widgets/social_button_widget.dart';
 
-class EmailWalletConnectWidget extends StatelessWidget {
-  const EmailWalletConnectWidget({Key? key}) : super(key: key);
+class EmailWalletConnectPage extends StatelessWidget {
+  const EmailWalletConnectPage({
+    required this.onNext,
+    Key? key,
+  }) : super(key: key);
+
+  final VoidCallback onNext;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +33,9 @@ class EmailWalletConnectWidget extends StatelessWidget {
                 const Spacer(),
                 GreetingWidget(),
                 const SizedBox(height: 9),
-                SocialWidget(),
+                SocialWidget(
+                  onContinuePressed: onNext,
+                ),
                 const SizedBox(height: 9),
                 WalletWidget(),
                 const SizedBox(height: 25),
@@ -66,90 +73,56 @@ class GreetingWidget extends StatelessWidget {
 }
 
 class SocialWidget extends StatelessWidget {
+  const SocialWidget({
+    required this.onContinuePressed,
+  });
+
+  final VoidCallback onContinuePressed;
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
 
-    return Container(
+    return BaseContainerWidget(
       padding: const EdgeInsets.only(
         left: 42,
         right: 42,
         top: 21,
         bottom: 13,
       ),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          transform: const GradientRotation(math.pi / 5),
-          stops: const [0.0, 0.65, 1.0],
-          colors: [
-            AppColors.blueCharcoal.value.withOpacity(0.35),
-            AppColors.blueCharcoal.value.withOpacity(0.35),
-            AppColors.gainsboro.value.withOpacity(0),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(25),
-        border: GradientBoxBorder(
-          gradient: LinearGradient(
-            colors: [AppColors.suvaGrey.value, AppColors.pumpkin.value],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          width: 1,
-        ),
-      ),
+      contentGradientColors: [
+        AppColors.blueCharcoal.value.withOpacity(0.35),
+        AppColors.blueCharcoal.value.withOpacity(0.35),
+        AppColors.gainsboro.value.withOpacity(0),
+      ],
+      contentGradientStops: const [0.0, 0.65, 1.0],
+      borderGradientColors: [AppColors.suvaGrey.value, AppColors.pumpkin.value],
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          TextField(
-            style: textTheme.regular15.copyWith(
-              color: AppColors.whiteSmoke.value,
-              fontFamily: 'Karla',
-              fontWeight: FontWeight.w400,
-            ),
-            decoration: InputDecoration(
-              hintText: S.current.email,
-              hintStyle: textTheme.regular15.copyWith(
-                color: AppColors.grape.value,
-                fontFamily: 'Karla',
-              ),
-              filled: true,
-              fillColor: AppColors.swamp.value,
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: 15,
-                horizontal: 30,
-              ),
-              border: GradientInputBorder(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    AppColors.gainsboro.value.withOpacity(0.5),
-                    AppColors.darkSlate.value,
-                  ],
-                ),
-                borderRadius: BorderRadius.circular(25),
-                width: 1,
-              ),
-            ),
+          PrimaryTextField(
+            hintText: S.current.email,
+            controller: TextEditingController(),
+            onSubmitted: (value) {
+              print("User submitted: $value");
+            },
           ),
           const SizedBox(height: 8),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: onContinuePressed,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.blueCharcoal.value,
                 padding: const EdgeInsets.symmetric(vertical: 15),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25), // set border radius here
+                  borderRadius: BorderRadius.circular(25),
                   side: BorderSide(
                     color: AppColors.pumpkin.value.withOpacity(0.5),
                     width: 2,
-                  ), // set side color and thickness here
+                  ),
                 ),
               ),
               child: Text(
@@ -340,35 +313,20 @@ class _WalletWidgetState extends State<WalletWidget> {
       ],
     );
 
-    return Container(
+    return BaseContainerWidget(
       padding: const EdgeInsets.only(
         left: 42,
         right: 42,
         top: 21,
         bottom: 13,
       ),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          transform: const GradientRotation(math.pi / 5),
-          stops: const [0.0, 0.65, 1.0],
-          colors: [
-            AppColors.blueCharcoal.value.withOpacity(0.35),
-            AppColors.blueCharcoal.value.withOpacity(0.35),
-            AppColors.gainsboro.value.withOpacity(0),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(25),
-        border: GradientBoxBorder(
-          gradient: LinearGradient(
-            colors: [AppColors.suvaGrey.value, AppColors.pumpkin.value],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          width: 1,
-        ),
-      ),
+      contentGradientColors: [
+        AppColors.blueCharcoal.value.withOpacity(0.35),
+        AppColors.blueCharcoal.value.withOpacity(0.35),
+        AppColors.gainsboro.value.withOpacity(0),
+      ],
+      contentGradientStops: const [0.0, 0.65, 1.0],
+      borderGradientColors: [AppColors.suvaGrey.value, AppColors.pumpkin.value],
       child: AnimatedCrossFade(
         firstChild: initialContent,
         secondChild: expandedContent,

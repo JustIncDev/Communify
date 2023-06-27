@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/registration/presentation/registration_screen.dart';
-import '../../features/registration/presentation/pages/splash_widget.dart';
+import '../../features/registration/presentation/pages/splash_login_page.dart';
 
 /// Main point of the application navigation
 class AppRouter {

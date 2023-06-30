@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:rive/rive.dart';
 
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../../assets/colors/colors.dart';
-import '../../../../assets/text/text_extention.dart';
+import '../../../../core/util/assets/colors/colors.dart';
+import '../../../../core/util/assets/text/text_extention.dart';
 
 class SuccessfulPage extends StatefulWidget {
   const SuccessfulPage({
@@ -19,6 +21,22 @@ class SuccessfulPage extends StatefulWidget {
 
 class _SuccessfulPageState extends State<SuccessfulPage> {
   final selectedOptionNotifier = ValueNotifier<bool?>(null);
+
+  late final RiveAnimationController _controller = SimpleAnimation('Success');
+  final ValueNotifier<Artboard?> artboardNotifier = ValueNotifier<Artboard?>(null);
+
+  @override
+  void initState() {
+    super.initState();
+    _loadRiveFile();
+  }
+
+  Future<void> _loadRiveFile() async {
+    final data = await rootBundle.load(AppAssets.animations.successCheck.path);
+    final riveFile = RiveFile.import(data);
+    artboardNotifier.value = riveFile.mainArtboard;
+    artboardNotifier.value?.addController(_controller);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +69,23 @@ class _SuccessfulPageState extends State<SuccessfulPage> {
           ),
         ),
         const SizedBox(height: 75),
-        AppAssets.images.checkmark.image(),
+        ValueListenableBuilder<Artboard?>(
+          valueListenable: artboardNotifier,
+          builder: (context, artboard, child) {
+            if (artboard != null) {
+              return SizedBox(
+                width: 150,
+                height: 150,
+                child: Rive(
+                  artboard: artboard,
+                  fit: BoxFit.contain,
+                ),
+              );
+            } else {
+              return const CircularProgressIndicator(); // Display loading indicator while artboard is null
+            }
+          },
+        ),
         const SizedBox(height: 86),
         RichText(
           textAlign: TextAlign.center,

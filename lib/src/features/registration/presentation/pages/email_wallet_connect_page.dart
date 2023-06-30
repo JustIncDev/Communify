@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../../assets/colors/colors.dart';
-import '../../../../assets/text/text_extention.dart';
-import '../../../../global/common/widgets/base_container.dart';
-import '../../../../global/common/widgets/gradient/gradient_outline_input_border.dart';
-import '../../../../global/common/widgets/primary_text_field.dart';
-import '../widgets/social_button_widget.dart';
+import '../../../../core/application/common/widgets/base_container.dart';
+import '../../../../core/application/common/widgets/primary_text_field.dart';
+import '../../../../core/util/assets/colors/colors.dart';
+import '../../../../core/util/assets/text/text_extention.dart';
+import '../../../connect/presentation/widgets/social_button_widget.dart';
 
 class EmailWalletConnectPage extends StatelessWidget {
   const EmailWalletConnectPage({

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../generated/l10n.dart';
-import '../../../../assets/colors/colors.dart';
-import '../../../../assets/text/text_extention.dart';
-import '../../../../global/common/widgets/base_container.dart';
+import '../../../../core/application/common/widgets/base_container.dart';
+import '../../../../core/util/assets/colors/colors.dart';
+import '../../../../core/util/assets/text/text_extention.dart';
 
 class ChooseNetworkPage extends StatelessWidget {
   const ChooseNetworkPage({

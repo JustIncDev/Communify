@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '../generated/l10n.dart';
-import 'assets/themes/theme_data.dart';
-import 'config/app_config.dart';
-import 'config/environment/environment.dart';
-import 'global/common/service/theme/theme_service.dart';
-import 'global/common/widgets/debug/debug_route_widget.dart';
-import 'global/common/widgets/di_scope/di_scope.dart';
-import 'global/di/app_scope.dart';
-import 'global/storage/config_storage/config_storage_impl.dart';
+import 'core/application/bloc/auth/auth_bloc.dart';
+import 'core/application/bloc/auth/auth_event.dart';
+import 'core/application/bloc/auth/auth_state.dart';
+import 'core/application/common/service/theme/theme_service.dart';
+import 'core/application/common/widgets/debug/debug_route_widget.dart';
+import 'core/application/common/widgets/di_scope/di_scope.dart';
+import 'core/application/di/app_scope.dart';
+import 'core/application/storage/config_storage/config_storage_impl.dart';
+import 'core/util/assets/themes/theme_data.dart';
+import 'core/util/config/app_config.dart';
+import 'core/util/config/environment/environment.dart';
 
 /// App widget.
 class CommunifyApp extends StatefulWidget {
@@ -48,29 +52,36 @@ class _CommunifyAppState extends State<CommunifyApp> {
       factory: () {
         return _scope;
       },
-      child: AnimatedBuilder(
-        animation: _themeService,
-        builder: (context, child) {
-          return MaterialApp.router(
-            theme: AppThemeData.lightTheme,
-            darkTheme: AppThemeData.darkTheme,
-            themeMode: _themeService.currentThemeMode,
-            routerConfig: _scope.router.routerConfig,
-            builder: (_, child) => DebugPanelRouteWidget(
-              appScope: _scope,
-              child: child,
-            ),
-            localizationsDelegates: const [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              S.delegate,
-            ],
-            supportedLocales: const [
-              Locale('en'),
-            ],
-          );
-        },
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<AuthBloc>(
+            create: (_) => _scope.authBloc..add(AppStarted()),
+          ),
+        ],
+        child: AnimatedBuilder(
+          animation: _themeService,
+          builder: (context, child) {
+            return MaterialApp.router(
+              theme: AppThemeData.lightTheme,
+              darkTheme: AppThemeData.darkTheme,
+              themeMode: _themeService.currentThemeMode,
+              routerConfig: _scope.router.routerConfig,
+              builder: (_, child) => DebugPanelRouteWidget(
+                appScope: _scope,
+                child: child,
+              ),
+              localizationsDelegates: const [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+                S.delegate,
+              ],
+              supportedLocales: const [
+                Locale('en'),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

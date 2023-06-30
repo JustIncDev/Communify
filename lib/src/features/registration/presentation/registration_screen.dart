@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../../../assets/colors/color_scheme.dart';
+import '../../../core/util/assets/colors/color_scheme.dart';
 import 'pages/choose_network_page.dart';
+import 'pages/complete_profile_data_page.dart';
+import 'pages/complete_profile_social_links_page.dart';
 import 'pages/successful_page.dart';
 import 'pages/email_wallet_connect_page.dart';
 import 'pages/group_name_page.dart';
 import 'pages/group_theme_page.dart';
 import 'pages/profile_details_page.dart';
-import 'pages/splash_login_page.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen();
@@ -23,34 +24,35 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColorScheme.of(context).primary,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: PageView(
-          controller: _pageController,
-          scrollDirection: Axis.vertical,
-          physics: const NeverScrollableScrollPhysics(),
-          pageSnapping: true,
-          children: [
-            SplashLoginPage(onNext: _onNext),
-            EmailWalletConnectPage(onNext: _onNext),
-            ChooseNetworkPage(onNext: _onNext),
-            ProfileDetailsPage(
-              onNext: _onNext,
-              onBack: _onPrevious,
-            ),
-            GroupThemePage(
-              onNext: _onNext,
-              onBack: _onPrevious,
-            ),
-            GroupNamePage(
-              onNext: _onNext,
-              onBack: _onPrevious,
-            ),
-            SuccessfulPage(
-              onNext: _onNext,
-            ),
-          ],
-        ),
+      body: PageView(
+        controller: _pageController,
+        scrollDirection: Axis.vertical,
+        physics: const NeverScrollableScrollPhysics(),
+        pageSnapping: true,
+        children: [
+          EmailWalletConnectPage(onNext: _onNext),
+          ChooseNetworkPage(onNext: _onNext),
+          ProfileDetailsPage(
+            onNext: _onNext,
+            onBack: _onPrevious,
+          ),
+          GroupThemePage(
+            onNext: _onNext,
+            onBack: _onPrevious,
+          ),
+          GroupNamePage(
+            onNext: _onNext,
+            onBack: _onPrevious,
+          ),
+          SuccessfulPage(
+            onNext: _onNext,
+          ),
+          CompleteProfileDataPage(onNext: _onNext),
+          CompleteProfileSocialLinksPage(
+            onNext: _onNext,
+            onBack: _onPrevious,
+          )
+        ],
       ),
     );
   }

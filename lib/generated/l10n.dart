@@ -579,6 +579,206 @@ class S {
       args: [],
     );
   }
+
+  /// `Complete your\nprofile`
+  String get complete_your_profile {
+    return Intl.message(
+      'Complete your\nprofile',
+      name: 'complete_your_profile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile picture`
+  String get profile_picture {
+    return Intl.message(
+      'Profile picture',
+      name: 'profile_picture',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your bio`
+  String get your_bio {
+    return Intl.message(
+      'Your bio',
+      name: 'your_bio',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tell us about yourself...`
+  String get tell_us_about_yourself {
+    return Intl.message(
+      'Tell us about yourself...',
+      name: 'tell_us_about_yourself',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `characters`
+  String get characters {
+    return Intl.message(
+      'characters',
+      name: 'characters',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose from library`
+  String get choose_from_library {
+    return Intl.message(
+      'Choose from library',
+      name: 'choose_from_library',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Take photo`
+  String get take_photo {
+    return Intl.message(
+      'Take photo',
+      name: 'take_photo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add social links`
+  String get add_social_links {
+    return Intl.message(
+      'Add social links',
+      name: 'add_social_links',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Let people know how to find you`
+  String get let_people_know_how_to_find {
+    return Intl.message(
+      'Let people know how to find you',
+      name: 'let_people_know_how_to_find',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Twitter`
+  String get twitter {
+    return Intl.message(
+      'Twitter',
+      name: 'twitter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Instagram`
+  String get instagram {
+    return Intl.message(
+      'Instagram',
+      name: 'instagram',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Facebook`
+  String get facebook {
+    return Intl.message(
+      'Facebook',
+      name: 'facebook',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `https://facebook.com/`
+  String get facebook_hint {
+    return Intl.message(
+      'https://facebook.com/',
+      name: 'facebook_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `LinkedIn`
+  String get linkedIn {
+    return Intl.message(
+      'LinkedIn',
+      name: 'linkedIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `https://linkedin.com/`
+  String get linkedIn_hint {
+    return Intl.message(
+      'https://linkedin.com/',
+      name: 'linkedIn_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `TikTok`
+  String get tikTok {
+    return Intl.message(
+      'TikTok',
+      name: 'tikTok',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discord`
+  String get discord {
+    return Intl.message(
+      'Discord',
+      name: 'discord',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discord ID`
+  String get discord_hint {
+    return Intl.message(
+      'Discord ID',
+      name: 'discord_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Website`
+  String get website {
+    return Intl.message(
+      'Website',
+      name: 'website',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `www.YourWebsite.com`
+  String get website_hint {
+    return Intl.message(
+      'www.YourWebsite.com',
+      name: 'website_hint',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

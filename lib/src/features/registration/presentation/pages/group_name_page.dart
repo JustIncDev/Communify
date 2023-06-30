@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../../assets/colors/color_scheme.dart';
-import '../../../../assets/colors/colors.dart';
-import '../../../../assets/text/text_extention.dart';
-import '../../../../global/common/widgets/primary_app_bar.dart';
-import '../../../../global/common/widgets/primary_text_field.dart';
+import '../../../../core/application/common/widgets/primary_app_bar.dart';
+import '../../../../core/application/common/widgets/primary_text_field.dart';
+import '../../../../core/util/assets/colors/color_scheme.dart';
+import '../../../../core/util/assets/colors/colors.dart';
+import '../../../../core/util/assets/text/text_extention.dart';
 
 class GroupNamePage extends StatefulWidget {
   const GroupNamePage({

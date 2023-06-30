@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:log_service/lib.dart';
 
 import 'app.dart';
-import 'global/di/app_scope.dart';
+import 'core/application/di/app_scope.dart';
 
 /// App launch.
 Future<void> run() async {
@@ -23,7 +23,7 @@ Future<void> initializeAndRunApp() async {
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   /// Initialization LogServiceManager
-  await AppScope.initLoggerServices();
+  await AppScope.initServices();
 
   final scope = AppScope();
   await scope.initTheme();

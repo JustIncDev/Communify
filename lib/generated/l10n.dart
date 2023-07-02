@@ -80,6 +80,16 @@ class S {
     );
   }
 
+  /// `Password`
+  String get password {
+    return Intl.message(
+      'Password',
+      name: 'password',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Continue`
   String get continue_title {
     return Intl.message(

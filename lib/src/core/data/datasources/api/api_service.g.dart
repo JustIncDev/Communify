@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'supabase_api_service.dart';
+part of 'api_service.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'supabase_api_service.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _SupabaseApiService implements SupabaseApiService {
-  _SupabaseApiService(
+class _ApiService implements ApiService {
+  _ApiService(
     this._dio, {
     this.baseUrl,
   });
@@ -17,33 +17,6 @@ class _SupabaseApiService implements SupabaseApiService {
   final Dio _dio;
 
   String? baseUrl;
-
-  @override
-  Future<TokenResponse> refreshAccessToken(String refreshToken) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final _data = {'refresh_token': refreshToken};
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<TokenResponse>(Options(
-      method: 'POST',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/auth/v1/token?grant_type=refresh_token',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final value = TokenResponse.fromJson(_result.data!);
-    return value;
-  }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&

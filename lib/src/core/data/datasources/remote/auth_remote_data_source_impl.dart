@@ -1,47 +1,35 @@
 import 'package:dio/dio.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../entities/token_response.dart';
-import '../../entities/user_data.dart';
-import '../api/supabase_api_service.dart';
+import '../api/api_service.dart';
 import 'auth_remote_data_source.dart';
 
 final class AuthRemoteDataSourceImpl implements IAuthRemoteDataSource {
-  final SupabaseApiService _supabaseApiService;
+  final ApiService _apiService;
+  final SupabaseClient _supabaseClient;
 
-  AuthRemoteDataSourceImpl(Dio dio) : _supabaseApiService = SupabaseApiService(dio);
+  AuthRemoteDataSourceImpl(Dio dio)
+      : _apiService = ApiService(dio),
+        _supabaseClient = Supabase.instance.client;
 
   @override
-  Future<UserData> signInWithApple() {
-    throw UnimplementedError();
+  Future<AuthResponse> signUpWithEmail(String email, String password) async {
+    return _supabaseClient.auth.signUp(
+      email: email,
+      password: password,
+    );
   }
 
   @override
-  Future<UserData> signInWithDiscord() {
-    throw UnimplementedError();
+  Future<AuthResponse> signInWithEmail(String email, String password) async {
+    return _supabaseClient.auth.signInWithPassword(
+      email: email,
+      password: password,
+    );
   }
 
   @override
-  Future<UserData> signInWithEmail(String email) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<UserData> signInWithGoggle() {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<UserData> signInWithTwitter() {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<TokenResponse> refreshToken(String refreshToken) async {
-    try {
-      final response = await _supabaseApiService.refreshAccessToken(refreshToken);
-      return response;
-    } on Object catch (e) {
-      throw Exception('Failed to refresh token: $e');
-    }
+  Future<User?> getCurrentUser() async {
+    return _supabaseClient.auth.currentUser;
   }
 }

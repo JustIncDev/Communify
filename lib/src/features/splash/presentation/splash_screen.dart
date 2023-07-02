@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../core/application/bloc/auth/auth_bloc.dart';
 import '../../../core/application/bloc/auth/auth_state.dart';
+import '../../../core/application/bloc/bloc.dart';
+import '../../../core/application/bloc/global_bloc_provider.dart';
 import '../../../core/application/common/widgets/primary_button.dart';
 import '../../../core/application/navigation/router.dart';
 import '../../../core/util/assets/colors/color_scheme.dart';

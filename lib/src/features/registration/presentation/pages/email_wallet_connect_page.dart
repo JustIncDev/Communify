@@ -104,9 +104,6 @@ class SocialWidget extends StatelessWidget {
           PrimaryTextField(
             hintText: S.current.email,
             controller: TextEditingController(),
-            onSubmitted: (value) {
-              print("User submitted: $value");
-            },
           ),
           const SizedBox(height: 8),
           SizedBox(

@@ -14,10 +14,10 @@ final class TokenStorageImpl implements ITokenStorage {
   TokenStorageImpl();
 
   @override
-  Future<({String? accessToken, String? expiresIn})> getAccessToken() async {
+  Future<({String? accessToken, int? expiresIn})> getAccessToken() async {
     return (
       accessToken: (await SharedPreferences.getInstance()).getString(_accessToken),
-      expiresIn: (await SharedPreferences.getInstance()).getString(_accessExpiresIn),
+      expiresIn: (await SharedPreferences.getInstance()).getInt(_accessExpiresIn),
     );
   }
 
@@ -27,13 +27,17 @@ final class TokenStorageImpl implements ITokenStorage {
   }
 
   @override
-  Future<void> setAccessToken(String accessToken, String expiresIn) async {
+  Future<void> setAccessToken(String accessToken, int? expiresIn) async {
     await (await SharedPreferences.getInstance()).setString(_accessToken, accessToken);
-    await (await SharedPreferences.getInstance()).setString(_accessExpiresIn, expiresIn);
+    if (expiresIn != null) {
+      await (await SharedPreferences.getInstance()).setInt(_accessExpiresIn, expiresIn);
+    }
   }
 
   @override
-  Future<void> setRefreshToken(String refreshToken) async {
-    await (await SharedPreferences.getInstance()).setString(_refreshToken, refreshToken);
+  Future<void> setRefreshToken(String? refreshToken) async {
+    if (refreshToken != null) {
+      await (await SharedPreferences.getInstance()).setString(_refreshToken, refreshToken);
+    }
   }
 }

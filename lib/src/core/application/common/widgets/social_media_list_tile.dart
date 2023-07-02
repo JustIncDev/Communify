@@ -146,9 +146,6 @@ class SocialMediaListTile extends StatelessWidget {
             hintText: textFieldHint,
             borderRadius: 10,
             controller: TextEditingController(),
-            onSubmitted: (value) {
-              print("User submitted: $value");
-            },
           ),
         ),
       ],

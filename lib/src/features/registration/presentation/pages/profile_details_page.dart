@@ -6,19 +6,18 @@ import '../../../../core/application/common/widgets/base_container.dart';
 import '../../../../core/application/common/widgets/primary_app_bar.dart';
 import '../../../../core/application/common/widgets/primary_button.dart';
 import '../../../../core/application/common/widgets/primary_text_field.dart';
+import '../../../../core/application/navigation/router.dart';
 import '../../../../core/util/assets/colors/color_scheme.dart';
 import '../../../../core/util/assets/colors/colors.dart';
 import '../../../../core/util/assets/text/text_extention.dart';
 
 class ProfileDetailsPage extends StatefulWidget {
   const ProfileDetailsPage({
-    required this.onNext,
-    required this.onBack,
     Key? key,
+    this.createGroup = false,
   }) : super(key: key);
 
-  final VoidCallback onNext;
-  final VoidCallback onBack;
+  final bool? createGroup;
 
   @override
   State<ProfileDetailsPage> createState() => _ProfileDetailsPageState();
@@ -34,7 +33,7 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
       leading: Center(
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
-          onTap: widget.onBack,
+          onTap: _onBackPressed,
           child: Container(
             width: 32,
             height: 32,
@@ -62,38 +61,41 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
       ],
     );
 
-    final body = SliverToBoxAdapter(
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Container(
-              margin: const EdgeInsets.only(left: 9),
-              child: RichText(
-                textAlign: TextAlign.left,
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: S.current.create_your_profile,
-                      style: textTheme.bold30.copyWith(
-                        fontFamily: 'Montserrat',
-                        color: AppColors.whiteSmoke.value,
+    final body = SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      sliver: SliverToBoxAdapter(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(left: 9),
+                child: RichText(
+                  textAlign: TextAlign.left,
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: S.current.create_your_profile,
+                        style: textTheme.bold30.copyWith(
+                          fontFamily: 'Montserrat',
+                          color: AppColors.whiteSmoke.value,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 9),
-            _ProfileDetailsBodyWidget(
-              textTheme: textTheme,
-              onAgreePressed: widget.onNext,
-            ),
-            const SizedBox(height: 20),
-          ],
+              const SizedBox(height: 9),
+              _ProfileDetailsBodyWidget(
+                textTheme: textTheme,
+                onAgreePressed: _onAgreePressed,
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );
@@ -109,14 +111,28 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
     );
   }
 
-  void _onLoginButtonPressed() {}
+  void _onLoginButtonPressed() {
+    AppRouter.instance().go('/login');
+  }
+
+  void _onAgreePressed() {
+    if (widget.createGroup ?? false) {
+      AppRouter.instance().go('/sign-up/group/choose-theme');
+    } else {
+      AppRouter.instance().go('/sign-up/success');
+    }
+  }
+
+  void _onBackPressed() {
+    AppRouter.instance().go('/sign-up/choose-network');
+  }
 }
 
 class _ProfileDetailsBodyWidget extends StatelessWidget {
   const _ProfileDetailsBodyWidget({
-    super.key,
     required this.textTheme,
     required this.onAgreePressed,
+    super.key,
   });
 
   final AppTextTheme textTheme;
@@ -152,9 +168,6 @@ class _ProfileDetailsBodyWidget extends StatelessWidget {
                   hintText: S.current.first_name_hint,
                   labelText: S.current.first_name,
                   controller: TextEditingController(),
-                  onSubmitted: (value) {
-                    print('User submitted: $value');
-                  },
                 ),
               ),
               const SizedBox(width: 12),
@@ -163,9 +176,6 @@ class _ProfileDetailsBodyWidget extends StatelessWidget {
                   hintText: S.current.last_name_hint,
                   labelText: S.current.last_name,
                   controller: TextEditingController(),
-                  onSubmitted: (value) {
-                    print('User submitted: $value');
-                  },
                 ),
               ),
             ],
@@ -175,18 +185,12 @@ class _ProfileDetailsBodyWidget extends StatelessWidget {
             hintText: S.current.username_hint,
             labelText: S.current.username,
             controller: TextEditingController(),
-            onSubmitted: (value) {
-              print('User submitted: $value');
-            },
           ),
           const SizedBox(height: 30),
           PrimaryTextField(
             hintText: S.current.date_of_birth_hint,
             labelText: S.current.date_of_birth,
             controller: TextEditingController(),
-            onSubmitted: (value) {
-              print('User submitted: $value');
-            },
             suffixIcon: InkWell(
               onTap: () {},
               borderRadius: BorderRadius.circular(24),

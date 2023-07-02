@@ -10,7 +10,7 @@ final class AuthLocalDataSourceImpl implements IAuthLocalDataSource {
   AuthLocalDataSourceImpl() : _tokenStorage = TokenStorageImpl();
 
   @override
-  FutureOr<({String? accessToken, String? expiresIn, String? refreshToken})>
+  FutureOr<({String? accessToken, int? expiresIn, String? refreshToken})>
       retrieveTokensData() async {
     final accessTokenData = await _tokenStorage.getAccessToken();
     final refreshTokenData = await _tokenStorage.getRefreshToken();
@@ -24,8 +24,8 @@ final class AuthLocalDataSourceImpl implements IAuthLocalDataSource {
   @override
   Future<void> setTokensData({
     required String accessToken,
-    required String expiresIn,
-    required String refreshToken,
+    required int? expiresIn,
+    required String? refreshToken,
   }) async {
     await _tokenStorage.setAccessToken(accessToken, expiresIn);
     await _tokenStorage.setRefreshToken(refreshToken);

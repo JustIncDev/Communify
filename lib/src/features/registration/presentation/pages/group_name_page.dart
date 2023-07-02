@@ -10,13 +10,8 @@ import '../../../../core/util/assets/text/text_extention.dart';
 
 class GroupNamePage extends StatefulWidget {
   const GroupNamePage({
-    required this.onNext,
-    required this.onBack,
     super.key,
   });
-
-  final VoidCallback onNext;
-  final VoidCallback onBack;
 
   @override
   State<GroupNamePage> createState() => _GroupNamePageState();
@@ -33,7 +28,7 @@ class _GroupNamePageState extends State<GroupNamePage> {
       leading: Center(
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
-          onTap: widget.onBack,
+          onTap: _onBackPressed,
           child: Container(
             width: 32,
             height: 32,
@@ -84,9 +79,6 @@ class _GroupNamePageState extends State<GroupNamePage> {
                   PrimaryTextField(
                     hintText: S.current.your_network,
                     controller: TextEditingController(),
-                    onSubmitted: (value) {
-                      print('User submitted: $value');
-                    },
                   ),
                   const SizedBox(height: 14),
                   Text(
@@ -155,11 +147,11 @@ class _GroupNamePageState extends State<GroupNamePage> {
     );
   }
 
-  void _onContinuePressed() {
-    widget.onNext.call();
-  }
+  void _onContinuePressed() {}
 
   void _onSkipPressed() {}
+
+  void _onBackPressed() {}
 }
 
 class CustomRadioOption extends StatelessWidget {

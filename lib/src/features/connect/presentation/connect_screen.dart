@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../generated/l10n.dart';
 
+import '../../../core/application/bloc/bloc.dart';
 import '../../../core/application/common/widgets/base_container.dart';
 import '../../../core/application/common/widgets/primary_text_field.dart';
+import '../../../core/application/navigation/router.dart';
 import '../../../core/util/assets/colors/colors.dart';
 import '../../../core/util/assets/text/text_extention.dart';
+import '../../../core/util/util.dart';
+import '../application/connect_bloc.dart';
 import 'widgets/social_button_widget.dart';
 
 class ConnectScreen extends StatelessWidget {
@@ -73,101 +79,152 @@ class GreetingWidget extends StatelessWidget {
   }
 }
 
-class _SocialComponent extends StatelessWidget {
+class _SocialComponent extends StatefulWidget {
   const _SocialComponent();
+
+  @override
+  State<_SocialComponent> createState() => _SocialComponentState();
+}
+
+class _SocialComponentState extends State<_SocialComponent> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
 
-    return BaseContainerWidget(
-      padding: const EdgeInsets.only(
-        left: 42,
-        right: 42,
-        top: 21,
-        bottom: 13,
-      ),
-      contentGradientColors: [
-        AppColors.blueCharcoal.value.withOpacity(0.35),
-        AppColors.blueCharcoal.value.withOpacity(0.35),
-        AppColors.gainsboro.value.withOpacity(0),
-      ],
-      contentGradientStops: const [0.0, 0.65, 1.0],
-      borderGradientColors: [AppColors.suvaGrey.value, AppColors.pumpkin.value],
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          PrimaryTextField(
-            hintText: S.current.email,
-            controller: TextEditingController(),
-            onSubmitted: (value) {
-              print("User submitted: $value");
-            },
-          ),
-          const SizedBox(height: 8),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: _onContinuePressed,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.blueCharcoal.value,
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25),
-                  side: BorderSide(
-                    color: AppColors.pumpkin.value.withOpacity(0.5),
-                    width: 2,
-                  ),
-                ),
-              ),
-              child: Text(
-                S.current.continue_title.toUpperCase(),
+    return BlocConsumer<ConnectBloc, ConnectState>(
+      listener: (context, state) {
+        if (state is ConnectLoginSuccess) {
+          AppRouter.instance().go('/home');
+        } else if (state is ConnectRegistrationSuccess) {
+          AppRouter.instance().go('/sign-up/choose-network');
+        } else if (state is ConnectFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: AppColors.grape.value,
+              content: Text(
+                state.message,
                 style: textTheme.medium15.copyWith(
                   color: AppColors.whiteSmoke.value,
                   fontFamily: 'Montserrat',
                 ),
               ),
             ),
+          );
+        }
+      },
+      builder: (context, state) {
+        return BaseContainerWidget(
+          padding: const EdgeInsets.only(
+            left: 42,
+            right: 42,
+            top: 21,
+            bottom: 13,
           ),
-          const SizedBox(height: 8),
-          Text(
-            S.current.or,
-            style: textTheme.regular15.copyWith(
-              color: AppColors.suvaGrey.value.withOpacity(0.5),
-              fontFamily: 'Karla',
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          contentGradientColors: [
+            AppColors.blueCharcoal.value.withOpacity(0.35),
+            AppColors.blueCharcoal.value.withOpacity(0.35),
+            AppColors.gainsboro.value.withOpacity(0),
+          ],
+          contentGradientStops: const [0.0, 0.65, 1.0],
+          borderGradientColors: [AppColors.suvaGrey.value, AppColors.pumpkin.value],
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SocialButtonWidget(
-                type: SocialNetworkType.apple,
-                onPressed: () {},
+              PrimaryTextField(
+                hintText: S.current.email,
+                controller: _emailController,
+                errorText: state is ConnectInputError && state.errors.containsKey(FieldType.email)
+                    ? state.errors[FieldType.email]
+                    : null,
+                keyboardType: TextInputType.emailAddress,
               ),
-              SocialButtonWidget(
-                type: SocialNetworkType.google,
-                onPressed: () {},
+              const SizedBox(height: 8),
+              PrimaryTextField(
+                hintText: S.current.password,
+                controller: _passwordController,
+                errorText:
+                    state is ConnectInputError && state.errors.containsKey(FieldType.password)
+                        ? state.errors[FieldType.password]
+                        : null,
+                keyboardType: TextInputType.text,
+                obscureText: true,
               ),
-              SocialButtonWidget(
-                type: SocialNetworkType.twitter,
-                onPressed: () {},
+              const SizedBox(height: 8),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _onContinuePressed,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.blueCharcoal.value,
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      side: BorderSide(
+                        color: AppColors.pumpkin.value.withOpacity(0.5),
+                        width: 2,
+                      ),
+                    ),
+                  ),
+                  child: Text(
+                    S.current.continue_title.toUpperCase(),
+                    style: textTheme.medium15.copyWith(
+                      color: AppColors.whiteSmoke.value,
+                      fontFamily: 'Montserrat',
+                    ),
+                  ),
+                ),
               ),
-              SocialButtonWidget(
-                type: SocialNetworkType.discord,
-                onPressed: () {},
+              const SizedBox(height: 8),
+              Text(
+                S.current.or,
+                style: textTheme.regular15.copyWith(
+                  color: AppColors.suvaGrey.value.withOpacity(0.5),
+                  fontFamily: 'Karla',
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SocialButtonWidget(
+                    type: SocialNetworkType.apple,
+                    onPressed: () {},
+                  ),
+                  SocialButtonWidget(
+                    type: SocialNetworkType.google,
+                    onPressed: () {},
+                  ),
+                  SocialButtonWidget(
+                    type: SocialNetworkType.twitter,
+                    onPressed: () {},
+                  ),
+                  SocialButtonWidget(
+                    type: SocialNetworkType.discord,
+                    onPressed: () {},
+                  ),
+                ],
               ),
             ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
-  void _onContinuePressed() {}
+  void _onContinuePressed() {
+    context.read<ConnectBloc>().add(
+          ConnectEmailEvent(
+            email: _emailController.text,
+            password: _passwordController.text,
+          ),
+        );
+  }
 }
 
 class _WalletComponent extends StatefulWidget {

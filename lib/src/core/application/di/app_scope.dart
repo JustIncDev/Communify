@@ -127,10 +127,10 @@ class AppScope implements IAppScope {
 
   static Future<void> initServices() async {
     await _initLoggerServices();
-    // final supabase = await Supabase.initialize(
-    //   url: const String.fromEnvironment('PROJECT_URL'),
-    //   anonKey: const String.fromEnvironment('ANON_KEY'),
-    // );
+    await Supabase.initialize(
+      url: const String.fromEnvironment('PROJECT_URL'),
+      anonKey: const String.fromEnvironment('ANON_KEY'),
+    );
   }
 }
 

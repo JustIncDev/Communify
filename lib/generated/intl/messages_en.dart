@@ -93,6 +93,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Non-profit orginasation"),
         "or": MessageLookupByLibrary.simpleMessage("or"),
         "other": MessageLookupByLibrary.simpleMessage("Other"),
+        "password": MessageLookupByLibrary.simpleMessage("Password"),
         "podcaster": MessageLookupByLibrary.simpleMessage("Podcaster"),
         "privacy_policy":
             MessageLookupByLibrary.simpleMessage("Privacy Policy"),

@@ -1,83 +1,101 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../generated/l10n.dart';
 import '../../../../core/application/common/widgets/base_container.dart';
+import '../../../../core/application/navigation/router.dart';
 import '../../../../core/util/assets/colors/colors.dart';
 import '../../../../core/util/assets/text/text_extention.dart';
+import '../../application/registration_bloc.dart';
 
 class ChooseNetworkPage extends StatelessWidget {
   const ChooseNetworkPage({
-    required this.onNext,
     Key? key,
   }) : super(key: key);
-
-  final VoidCallback onNext;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
 
-    return CustomScrollView(
-      physics: const NeverScrollableScrollPhysics(),
-      slivers: [
-        SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: 18),
-          sliver: SliverToBoxAdapter(
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(left: 9),
-                    child: RichText(
-                      textAlign: TextAlign.left,
-                      text: TextSpan(
+    return BlocListener<RegistrationBloc, RegistrationState>(
+      listener: (context, state) {
+        if (state is RegistrationChooseNetworkFinished) {
+          AppRouter.instance().go('/sign-up/credentials', extra: state.createGroup);
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Theme.of(context).primaryColor,
+        body: CustomScrollView(
+          physics: const NeverScrollableScrollPhysics(),
+          slivers: [
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              sliver: SliverToBoxAdapter(
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(left: 9),
+                        child: RichText(
+                          textAlign: TextAlign.left,
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: S.current.choose_one,
+                                style: textTheme.bold30.copyWith(
+                                  fontFamily: 'Montserrat',
+                                  color: AppColors.whiteSmoke.value,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 9),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          TextSpan(
-                            text: S.current.choose_one,
-                            style: textTheme.bold30.copyWith(
-                              fontFamily: 'Montserrat',
-                              color: AppColors.whiteSmoke.value,
+                          Expanded(
+                            child: _ChoosingWidget(
+                              onPressed: () => _onStartCommunityPressed(context),
+                              firstPart: S.current.start_a,
+                              secondPart: S.current.communify,
+                              thirdPart: S.current.group,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: _ChoosingWidget(
+                              onPressed: () => _onJoinCommunityPressed(context),
+                              firstPart: S.current.join_a,
+                              secondPart: S.current.communify,
+                              thirdPart: S.current.group,
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 9),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: _ChoosingWidget(
-                          onPressed: onNext,
-                          firstPart: S.current.start_a,
-                          secondPart: S.current.communify,
-                          thirdPart: S.current.group,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: _ChoosingWidget(
-                          onPressed: onNext,
-                          firstPart: S.current.join_a,
-                          secondPart: S.current.communify,
-                          thirdPart: S.current.group,
-                        ),
-                      ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
+  }
+
+  void _onStartCommunityPressed(BuildContext context) {
+    context.read<RegistrationBloc>().add(RegistrationCreateGroupEvent());
+  }
+
+  void _onJoinCommunityPressed(BuildContext context) {
+    context.read<RegistrationBloc>().add(RegistrationJoinGroupEvent());
   }
 }
 

@@ -10,13 +10,8 @@ import '../../../../core/util/assets/text/text_extention.dart';
 
 class GroupThemePage extends StatefulWidget {
   const GroupThemePage({
-    required this.onNext,
-    required this.onBack,
     super.key,
   });
-
-  final VoidCallback onNext;
-  final VoidCallback onBack;
 
   @override
   State<GroupThemePage> createState() => _GroupThemePageState();
@@ -48,7 +43,7 @@ class _GroupThemePageState extends State<GroupThemePage> {
       leading: Center(
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
-          onTap: widget.onBack,
+          onTap: _onBackPressed,
           child: Container(
             width: 32,
             height: 32,
@@ -138,9 +133,6 @@ class _GroupThemePageState extends State<GroupThemePage> {
                     return PrimaryTextField(
                       hintText: S.current.describe,
                       controller: TextEditingController(),
-                      onSubmitted: (value) {
-                        print('User submitted: $value');
-                      },
                     );
                   } else {
                     return const SizedBox.shrink();
@@ -213,11 +205,11 @@ class _GroupThemePageState extends State<GroupThemePage> {
     );
   }
 
-  void _onContinuePressed() {
-    widget.onNext.call();
-  }
+  void _onContinuePressed() {}
 
   void _onSkipPressed() {}
+
+  void _onBackPressed() {}
 }
 
 class _CheckBoxWidget extends StatelessWidget {

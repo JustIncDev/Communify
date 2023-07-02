@@ -11,16 +11,16 @@ class PrimaryTextField extends StatefulWidget {
   final TextInputType keyboardType;
   final TextCapitalization textCapitalization;
   final TextInputAction textInputAction;
-  final ValueChanged<String> onSubmitted;
   final Widget? suffixIcon;
   final int? maxLength;
   final int? minLines;
   final int? maxLines;
   final double? borderRadius;
+  final String? errorText;
+  final bool? obscureText;
 
   const PrimaryTextField({
     required this.hintText,
-    required this.onSubmitted,
     Key? key,
     this.labelText,
     this.controller,
@@ -30,8 +30,10 @@ class PrimaryTextField extends StatefulWidget {
     this.suffixIcon,
     this.maxLength,
     this.minLines,
-    this.maxLines,
+    this.maxLines = 1,
     this.borderRadius,
+    this.errorText,
+    this.obscureText,
   }) : super(key: key);
 
   @override
@@ -72,11 +74,11 @@ class _PrimaryTextFieldState extends State<PrimaryTextField> {
             ),
           ),
         TextField(
+          obscureText: widget.obscureText ?? false,
           controller: _controller,
           keyboardType: widget.keyboardType,
           textCapitalization: widget.textCapitalization,
           textInputAction: widget.textInputAction,
-          onSubmitted: widget.onSubmitted,
           maxLength: widget.maxLength,
           style: textTheme.regular15.copyWith(
             color: AppColors.whiteSmoke.value,
@@ -97,18 +99,60 @@ class _PrimaryTextFieldState extends State<PrimaryTextField> {
               horizontal: 30,
             ),
             counterText: '',
-            border: GradientInputBorder(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  AppColors.gainsboro.value.withOpacity(0.5),
-                  AppColors.darkSlate.value,
-                ],
+            errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: AppColors.fireBrick.value,
+                width: 1,
               ),
-              borderRadius: BorderRadius.circular(widget.borderRadius ?? 25),
-              width: 1,
+              borderRadius: BorderRadius.circular(25),
             ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: AppColors.fireBrick.value,
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(25),
+            ),
+            focusedBorder: widget.errorText != null
+                ? OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: AppColors.fireBrick.value,
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(25),
+                  )
+                : GradientInputBorder(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        AppColors.gainsboro.value.withOpacity(0.5),
+                        AppColors.darkSlate.value,
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(widget.borderRadius ?? 25),
+                    width: 1,
+                  ),
+            border: widget.errorText != null
+                ? OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: AppColors.fireBrick.value,
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(25),
+                  )
+                : GradientInputBorder(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        AppColors.gainsboro.value.withOpacity(0.5),
+                        AppColors.darkSlate.value,
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(widget.borderRadius ?? 25),
+                    width: 1,
+                  ),
             suffixIcon: widget.suffixIcon,
           ),
           minLines: widget.minLines,
@@ -133,6 +177,22 @@ class _PrimaryTextFieldState extends State<PrimaryTextField> {
                 ),
               );
             },
+          ),
+        if (widget.errorText != null)
+          Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 5, right: 19),
+              child: Text(
+                widget.errorText!,
+                textAlign: TextAlign.right,
+                style: textTheme.regular15.copyWith(
+                  color: AppColors.fireBrick.value,
+                  fontFamily: 'Karla',
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ),
           ),
       ],
     );

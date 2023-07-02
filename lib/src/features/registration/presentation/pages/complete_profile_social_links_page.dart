@@ -11,13 +11,8 @@ import '../../../../core/util/assets/text/text_extention.dart';
 
 class CompleteProfileSocialLinksPage extends StatefulWidget {
   const CompleteProfileSocialLinksPage({
-    required this.onNext,
-    required this.onBack,
     super.key,
   });
-
-  final VoidCallback onNext;
-  final VoidCallback onBack;
 
   @override
   State<CompleteProfileSocialLinksPage> createState() => _CompleteProfileSocialLinksPageState();
@@ -34,7 +29,7 @@ class _CompleteProfileSocialLinksPageState extends State<CompleteProfileSocialLi
       leading: Center(
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
-          onTap: widget.onBack,
+          onTap: _onBackPressed,
           child: Container(
             width: 32,
             height: 32,
@@ -197,9 +192,9 @@ class _CompleteProfileSocialLinksPageState extends State<CompleteProfileSocialLi
     );
   }
 
-  void _onContinuePressed() {
-    widget.onNext.call();
-  }
+  void _onContinuePressed() {}
 
   void _onSkipPressed() {}
+
+  void _onBackPressed() {}
 }

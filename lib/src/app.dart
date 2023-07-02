@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 
 import '../generated/l10n.dart';
 import 'core/application/bloc/auth/auth_bloc.dart';
 import 'core/application/bloc/auth/auth_event.dart';
 import 'core/application/bloc/auth/auth_state.dart';
+import 'core/application/bloc/bloc.dart';
+import 'core/application/bloc/global_bloc_provider.dart';
 import 'core/application/common/service/theme/theme_service.dart';
 import 'core/application/common/widgets/debug/debug_route_widget.dart';
 import 'core/application/common/widgets/di_scope/di_scope.dart';
@@ -30,6 +33,7 @@ class CommunifyApp extends StatefulWidget {
 class _CommunifyAppState extends State<CommunifyApp> {
   late IAppScope _scope;
   late IThemeService _themeService;
+  late final GlobalKey providerKey = GlobalKey();
 
   @override
   void initState() {
@@ -61,24 +65,30 @@ class _CommunifyAppState extends State<CommunifyApp> {
         child: AnimatedBuilder(
           animation: _themeService,
           builder: (context, child) {
-            return MaterialApp.router(
-              theme: AppThemeData.lightTheme,
-              darkTheme: AppThemeData.darkTheme,
-              themeMode: _themeService.currentThemeMode,
-              routerConfig: _scope.router.routerConfig,
-              builder: (_, child) => DebugPanelRouteWidget(
-                appScope: _scope,
-                child: child,
+            return Provider<BlocFactory>(
+              key: providerKey,
+              create: (ctx) => BlocFactory(_scope.dio),
+              child: MaterialApp.router(
+                theme: AppThemeData.lightTheme,
+                darkTheme: AppThemeData.darkTheme,
+                themeMode: _themeService.currentThemeMode,
+                routerConfig: _scope.router.routerConfig,
+                builder: (_, child) => GlobalBlocProvider(
+                  child: DebugPanelRouteWidget(
+                    appScope: _scope,
+                    child: child,
+                  ),
+                ),
+                localizationsDelegates: const [
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                  S.delegate,
+                ],
+                supportedLocales: const [
+                  Locale('en'),
+                ],
               ),
-              localizationsDelegates: const [
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-                S.delegate,
-              ],
-              supportedLocales: const [
-                Locale('en'),
-              ],
             );
           },
         ),

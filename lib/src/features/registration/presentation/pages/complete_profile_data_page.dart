@@ -8,7 +8,6 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../../core/application/common/widgets/base_container.dart';
 import '../../../../core/application/common/widgets/gradient/gradient_box_border.dart';
 import '../../../../core/application/common/widgets/gradient/gradient_outline_input_border.dart';
 import '../../../../core/application/common/widgets/primary_text_field.dart';
@@ -18,11 +17,8 @@ import '../../../../core/util/assets/text/text_extention.dart';
 
 class CompleteProfileDataPage extends StatefulWidget {
   const CompleteProfileDataPage({
-    required this.onNext,
     super.key,
   });
-
-  final VoidCallback onNext;
 
   @override
   State<CompleteProfileDataPage> createState() => _CompleteProfileDataPageState();
@@ -136,9 +132,6 @@ class _CompleteProfileDataPageState extends State<CompleteProfileDataPage> {
                   PrimaryTextField(
                     hintText: S.current.tell_us_about_yourself,
                     controller: TextEditingController(),
-                    onSubmitted: (value) {
-                      print('User submitted: $value');
-                    },
                     maxLength: 500,
                     minLines: 12,
                     maxLines: 15,
@@ -343,9 +336,7 @@ class _CompleteProfileDataPageState extends State<CompleteProfileDataPage> {
     }
   }
 
-  void _onContinuePressed() {
-    widget.onNext.call();
-  }
+  void _onContinuePressed() {}
 
   void _onSkipPressed() {}
 }

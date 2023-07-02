@@ -9,11 +9,8 @@ import '../../../../core/util/assets/text/text_extention.dart';
 
 class SuccessfulPage extends StatefulWidget {
   const SuccessfulPage({
-    required this.onNext,
     super.key,
   });
-
-  final VoidCallback onNext;
 
   @override
   State<SuccessfulPage> createState() => _SuccessfulPageState();
@@ -137,9 +134,7 @@ class _SuccessfulPageState extends State<SuccessfulPage> {
     );
   }
 
-  void _onContinuePressed() {
-    widget.onNext.call();
-  }
+  void _onContinuePressed() {}
 }
 
 class CustomRadioOption extends StatelessWidget {

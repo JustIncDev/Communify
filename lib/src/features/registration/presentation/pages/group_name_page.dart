@@ -28,6 +28,25 @@ class _GroupNamePageState extends State<GroupNamePage> {
   final selectedOptionNotifier = ValueNotifier<bool?>(null);
   final _nameTextController = TextEditingController();
 
+  final ValueNotifier<bool> _isButtonEnabled = ValueNotifier(false);
+
+  @override
+  void initState() {
+    super.initState();
+    _nameTextController.addListener(_updateButtonState);
+  }
+
+  @override
+  void dispose() {
+    _nameTextController.dispose();
+    super.dispose();
+  }
+
+  void _updateButtonState() {
+    final enableButton = _nameTextController.text.isNotEmpty;
+    _isButtonEnabled.value = enableButton;
+  }
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
@@ -59,108 +78,123 @@ class _GroupNamePageState extends State<GroupNamePage> {
       builder: (context, state) {
         return Scaffold(
           backgroundColor: AppColorScheme.of(context).primary,
-          body: CustomScrollView(
-            slivers: [
-              appBar,
-              SliverPadding(
-                padding: const EdgeInsets.all(23),
-                sliver: SliverToBoxAdapter(
-                  child: RichText(
-                    textAlign: TextAlign.left,
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: S.current.choose_name_group,
-                          style: textTheme.bold30.copyWith(
-                            fontFamily: 'Montserrat',
-                            color: AppColors.whiteSmoke.value,
-                          ),
+          body: Stack(
+            alignment: Alignment.center,
+            children: [
+              if (state is RegistrationLoading)
+                CircularProgressIndicator(
+                  color: AppColors.pumpkin.value,
+                  backgroundColor: AppColors.grape.value,
+                ),
+              CustomScrollView(
+                slivers: [
+                  appBar,
+                  SliverPadding(
+                    padding: const EdgeInsets.all(23),
+                    sliver: SliverToBoxAdapter(
+                      child: RichText(
+                        textAlign: TextAlign.left,
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: S.current.choose_name_group,
+                              style: textTheme.bold30.copyWith(
+                                fontFamily: 'Montserrat',
+                                color: AppColors.whiteSmoke.value,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ),
-              SliverPadding(
-                padding: const EdgeInsets.only(
-                  left: 23,
-                  right: 23,
-                  top: 100,
-                ),
-                sliver: SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      PrimaryTextField(
-                        hintText: S.current.your_network,
-                        controller: _nameTextController,
-                        errorText: state is RegistrationInputError &&
-                                state.errors.containsKey(FieldType.groupName)
-                            ? state.errors[FieldType.groupName]
-                            : null,
-                        keyboardType: TextInputType.text,
-                      ),
-                      const SizedBox(height: 14),
-                      Text(
-                        S.current.you_can_always_change,
-                        style: textTheme.medium15.copyWith(
-                          color: AppColors.whiteSmoke.value,
-                          fontFamily: 'Karla',
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 61, right: 61),
+                  SliverPadding(
+                    padding: const EdgeInsets.only(
+                      left: 23,
+                      right: 23,
+                      top: 100,
+                    ),
+                    sliver: SliverToBoxAdapter(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          CustomRadioOption(
-                            groupValueNotifier: selectedOptionNotifier,
-                            value: true,
-                            label: S.current.activate_push_notifications,
+                          PrimaryTextField(
+                            hintText: S.current.your_network,
+                            controller: _nameTextController,
+                            errorText: state is RegistrationInputError &&
+                                    state.errors.containsKey(FieldType.groupName)
+                                ? state.errors[FieldType.groupName]
+                                : null,
+                            keyboardType: TextInputType.text,
                           ),
-                          CustomRadioOption(
-                            groupValueNotifier: selectedOptionNotifier,
-                            value: false,
-                            label: S.current.decide_later,
+                          const SizedBox(height: 14),
+                          Text(
+                            S.current.you_can_always_change,
+                            style: textTheme.medium15.copyWith(
+                              color: AppColors.whiteSmoke.value,
+                              fontFamily: 'Karla',
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 34),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 80),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.pumpkin.value,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(26),
+                  ),
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 61, right: 61),
+                          child: Column(
+                            children: [
+                              CustomRadioOption(
+                                groupValueNotifier: selectedOptionNotifier,
+                                value: true,
+                                label: S.current.activate_push_notifications,
+                              ),
+                              CustomRadioOption(
+                                groupValueNotifier: selectedOptionNotifier,
+                                value: false,
+                                label: S.current.decide_later,
+                              ),
+                            ],
                           ),
-                          padding: const EdgeInsets.symmetric(vertical: 17, horizontal: 33),
                         ),
-                        onPressed: _onContinuePressed,
-                        child: Center(
-                          child: Text(
-                            S.current.continue_title.toUpperCase(),
-                            style: textTheme.medium15.copyWith(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.whiteSmoke.value,
-                            ),
-                          ),
+                        const SizedBox(height: 34),
+                        ValueListenableBuilder<bool>(
+                          valueListenable: _isButtonEnabled,
+                          builder: (context, value, child) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 80),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.pumpkin.value,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(26),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(vertical: 17, horizontal: 33),
+                                ),
+                                onPressed: value ? _onContinuePressed : null,
+                                child: Center(
+                                  child: Text(
+                                    S.current.continue_title.toUpperCase(),
+                                    style: textTheme.medium15.copyWith(
+                                      fontFamily: 'Montserrat',
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.whiteSmoke.value,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                         ),
-                      ),
+                        const SizedBox(height: 34), // Add extra space at the bottom if needed
+                      ],
                     ),
-                    const SizedBox(height: 34), // Add extra space at the bottom if needed
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),

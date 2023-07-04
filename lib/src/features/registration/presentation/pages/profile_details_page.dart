@@ -103,14 +103,28 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
       ),
     );
 
-    return Scaffold(
-      backgroundColor: AppColorScheme.of(context).primary,
-      body: CustomScrollView(
-        slivers: [
-          appBar,
-          body,
-        ],
-      ),
+    return BlocBuilder<RegistrationBloc, RegistrationState>(
+      builder: (context, state) {
+        return Scaffold(
+          backgroundColor: AppColorScheme.of(context).primary,
+          body: Stack(
+            alignment: Alignment.center,
+            children: [
+              if (state is RegistrationLoading)
+                CircularProgressIndicator(
+                  color: AppColors.pumpkin.value,
+                  backgroundColor: AppColors.grape.value,
+                ),
+              CustomScrollView(
+                slivers: [
+                  appBar,
+                  body,
+                ],
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -151,6 +165,34 @@ class _ProfileDetailsBodyWidgetState extends State<_ProfileDetailsBodyWidget> {
   final _usernameController = TextEditingController();
   final _dateOfBirthController = TextEditingController();
 
+  final ValueNotifier<bool> _isButtonEnabled = ValueNotifier(false);
+
+  @override
+  void initState() {
+    super.initState();
+    _firstNameController.addListener(_updateButtonState);
+    _lastNameController.addListener(_updateButtonState);
+    _usernameController.addListener(_updateButtonState);
+    _dateOfBirthController.addListener(_updateButtonState);
+  }
+
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _usernameController.dispose();
+    _dateOfBirthController.dispose();
+    super.dispose();
+  }
+
+  void _updateButtonState() {
+    final enableButton = _firstNameController.text.isNotEmpty &&
+        _lastNameController.text.isNotEmpty &&
+        _usernameController.text.isNotEmpty &&
+        _dateOfBirthController.text.isNotEmpty;
+    _isButtonEnabled.value = enableButton;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<RegistrationBloc, RegistrationState>(
@@ -181,7 +223,8 @@ class _ProfileDetailsBodyWidgetState extends State<_ProfileDetailsBodyWidget> {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Flexible(
                     child: PrimaryTextField(
@@ -298,29 +341,34 @@ class _ProfileDetailsBodyWidgetState extends State<_ProfileDetailsBodyWidget> {
               const SizedBox(height: 17),
               LayoutBuilder(
                 builder: (context, constraints) {
-                  return ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.pumpkin.value,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(26),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 33),
-                      maximumSize: Size(
-                        constraints.maxWidth - 120,
-                        constraints.maxHeight,
-                      ),
-                    ),
-                    onPressed: _onAgreePressed,
-                    child: Center(
-                      child: Text(
-                        S.current.agree_and_continue.toUpperCase(),
-                        style: widget.textTheme.medium15.copyWith(
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.whiteSmoke.value,
+                  return ValueListenableBuilder<bool>(
+                    valueListenable: _isButtonEnabled,
+                    builder: (context, value, child) {
+                      return ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.pumpkin.value,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(26),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 33),
+                          maximumSize: Size(
+                            constraints.maxWidth - 120,
+                            constraints.maxHeight,
+                          ),
                         ),
-                      ),
-                    ),
+                        onPressed: value ? _onAgreePressed : null,
+                        child: Center(
+                          child: Text(
+                            S.current.agree_and_continue.toUpperCase(),
+                            style: widget.textTheme.medium15.copyWith(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.whiteSmoke.value,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   );
                 },
               ),

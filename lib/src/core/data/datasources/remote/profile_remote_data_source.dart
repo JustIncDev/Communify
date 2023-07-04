@@ -5,4 +5,6 @@ abstract interface class IProfileRemoteDataSource {
   Future<void> updateUserProfile(ApiUser userProfile);
 
   Future<void> addSocialProviders(Map<SocialMediaType, String> providers);
+
+  Future<ApiUser> getUserProfile();
 }

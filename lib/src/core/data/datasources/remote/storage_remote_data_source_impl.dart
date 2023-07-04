@@ -11,8 +11,8 @@ final class StorageRemoteDataSourceImpl implements IStorageRemoteDataSource {
 
   @override
   Future<String> uploadFile(File file) async {
-    return _supabaseClient.storage.from('avatars').upload(
-          'public/avatar1.png',
+    return _supabaseClient.storage.from('CommunifyStorage').upload(
+          'public/avatar_${DateTime.now().millisecondsSinceEpoch}.png',
           file,
           fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
         );

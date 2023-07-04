@@ -35,7 +35,7 @@ class ApiUser {
       lastName: json['last_name'] as String?,
       username: json['username'] as String?,
       dateOfBirth: json['date_of_birth'] != null
-          ? DateFormat('MM/dd/yyyy').parse(json['date_of_birth'] as String)
+          ? DateFormat('yyyy/MM/dd').parse(json['date_of_birth'] as String)
           : null,
       avatar: json['avatar'] as String?,
       bio: json['bio'] as String?,

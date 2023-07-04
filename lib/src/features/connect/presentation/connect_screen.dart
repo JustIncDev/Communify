@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../generated/l10n.dart';
 
-import '../../../core/application/bloc/bloc.dart';
 import '../../../core/application/common/widgets/base_container.dart';
 import '../../../core/application/common/widgets/primary_text_field.dart';
 import '../../../core/application/navigation/router.dart';
 import '../../../core/util/assets/colors/colors.dart';
 import '../../../core/util/assets/text/text_extention.dart';
 import '../../../core/util/enum.dart';
-import '../../../core/util/util.dart';
 import '../application/connect_bloc.dart';
 import 'widgets/social_button_widget.dart';
 
@@ -23,35 +20,49 @@ class ConnectScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      body: CustomScrollView(
-        physics: const NeverScrollableScrollPhysics(),
-        slivers: [
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            sliver: SliverToBoxAdapter(
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height,
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    const Spacer(),
-                    GreetingWidget(),
-                    const SizedBox(height: 9),
-                    const _SocialComponent(),
-                    const SizedBox(height: 9),
-                    _WalletComponent(),
-                    const SizedBox(height: 25),
-                  ],
+    return BlocBuilder<ConnectBloc, ConnectState>(
+      builder: (context, state) {
+        return Scaffold(
+          backgroundColor: Theme.of(context).primaryColor,
+          body: Stack(
+            alignment: Alignment.center,
+            children: [
+              if (state is ConnectLoading)
+                CircularProgressIndicator(
+                  color: AppColors.pumpkin.value,
+                  backgroundColor: AppColors.grape.value,
                 ),
+              CustomScrollView(
+                physics: const NeverScrollableScrollPhysics(),
+                slivers: [
+                  SliverPadding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    sliver: SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height,
+                        width: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            const Spacer(),
+                            GreetingWidget(),
+                            const SizedBox(height: 9),
+                            const _SocialComponent(),
+                            const SizedBox(height: 9),
+                            _WalletComponent(),
+                            const SizedBox(height: 25),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:log_service/lib.dart';
 
 import '../../../core/application/common/widgets/social_media_list_tile.dart';
 import '../../../core/data/models/bad_words.dart';
 import '../../../core/domain/entities/group.dart';
-import '../../../core/domain/entities/user.dart';
 import '../../../core/domain/repositories/auth_repository.dart';
 import '../../../core/domain/repositories/group_repository.dart';
 import '../../../core/domain/repositories/profile_repository.dart';
@@ -34,8 +34,9 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     on<RegistrationAgreeEvent>(_onAgreeEvent);
     on<RegistrationSelectThemeGroupEvent>(_onSelectGroupThemeEvent);
     on<RegistrationCreateGroupFinishEvent>(_onFinishCreateGroupEvent);
+    on<RegistrationSuccessInitEvent>(_onSuccessInitEvent);
     on<RegistrationFillFirstProfilePageEvent>(_onFillFirstProfilePageEvent);
-    on<RegistrationFillFirstProfilePageEvent>(_onFillSecondProfilePageEvent);
+    on<RegistrationFillSecondProfilePageEvent>(_onFillSecondProfilePageEvent);
   }
 
   final IAuthRepository _authRepository;
@@ -53,11 +54,11 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
 
   Future<void> _onAgreeEvent(RegistrationAgreeEvent event, Emitter<RegistrationState> emit) async {
     try {
+      emit(RegistrationLoading());
       final result = await _validateFields(event, emit);
       if (!result) {
         return;
       }
-      emit(RegistrationLoading());
       final user = await _authRepository.getCurrentUser();
       if (user == null) throw Exception("User's not found");
       await _profileRepository.updateUserProfile(
@@ -82,6 +83,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     try {
       final groupTheme = event.groupTheme;
       if (event.other) {
+        emit(RegistrationLoading());
         final validationGroupThemeMessage = validateGroupName(
           groupName: groupTheme,
           harmfulWord: await _authRepository.checkForBadWord(
@@ -111,6 +113,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     Emitter<RegistrationState> emit,
   ) async {
     try {
+      emit(RegistrationLoading());
       final groupName = event.groupName;
       final validationGroupNameMessage = validateGroupName(
         groupName: groupName,
@@ -138,11 +141,26 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     }
   }
 
+  Future<void> _onSuccessInitEvent(
+    RegistrationSuccessInitEvent event,
+    Emitter<RegistrationState> emit,
+  ) async {
+    try {
+      emit(RegistrationLoading());
+      final response = await _profileRepository.getUserProfile();
+      emit(RegistrationFinishInitializeSuccessState(response.username ?? 'Name'));
+    } on Object catch (e, s) {
+      logger.logError(message: e.toString(), error: e, stackTrace: s);
+      emit(RegistrationFailure(e.toString()));
+    }
+  }
+
   Future<void> _onFillFirstProfilePageEvent(
     RegistrationFillFirstProfilePageEvent event,
     Emitter<RegistrationState> emit,
   ) async {
     try {
+      emit(RegistrationLoading());
       final bioDescription = event.bioDescription;
       String? validationMessage;
       final harmfulLanguage = await _authRepository.checkForBadWord(
@@ -161,6 +179,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
         emit(RegistrationInputError(errors: errorMessages));
         return;
       }
+
       final user = await _authRepository.getCurrentUser();
       if (user == null) throw Exception("User's not found");
 

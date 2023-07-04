@@ -50,4 +50,21 @@ final class ProfileRemoteDataSourceImpl implements IProfileRemoteDataSource {
       }
     }
   }
+
+  @override
+  Future<ApiUser> getUserProfile() async {
+    final userId = _supabaseClient.auth.currentUser?.id;
+    if (userId == null) {
+      throw Exception('User is not logged in');
+    }
+
+    final response =
+        await _supabaseClient.from('users').select<PostgrestMap>('*').eq('id', userId).single();
+
+    if (response != null) {
+      return ApiUser.fromJson(response);
+    } else {
+      throw Exception('User profile not found');
+    }
+  }
 }

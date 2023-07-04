@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 import '../../application/common/widgets/social_media_list_tile.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/profile_repository.dart';
@@ -19,12 +21,28 @@ final class ProfileRepositoryImpl implements IProfileRepository {
           'email': user.email,
           'first_name': user.firstName,
           'last_name': user.lastName,
-          'user_name': user.username,
-          'date_of_birth': user.dateOfBirth,
+          'username': user.username,
+          // 'date_of_birth': formattedDateString,
           'avatar': user.avatar,
           'bio': user.bio
         },
       ),
+    );
+  }
+
+  @override
+  Future<UserDomain> getUserProfile() async {
+    final response = await _profileRemoteDataSource.getUserProfile();
+    return UserDomain(
+      id: response.id,
+      email: response.email,
+      firstName: response.firstName,
+      lastName: response.lastName,
+      username: response.username,
+      dateOfBirth: response.dateOfBirth?.toIso8601String(),
+      avatar: response.avatar,
+      bio: response.bio,
+      dateOfRegistration: response.dateOfRegistration?.toIso8601String(),
     );
   }
 

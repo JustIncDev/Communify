@@ -32,6 +32,27 @@ class _CompleteProfileDataPageState extends State<CompleteProfileDataPage> {
   final _image = ValueNotifier<XFile?>(null);
   final ValueNotifier<bool> _isBottomSheetOpen = ValueNotifier(false);
   final _bioTextController = TextEditingController();
+  final ValueNotifier<bool> _isButtonEnabled = ValueNotifier(false);
+
+  @override
+  void initState() {
+    super.initState();
+    _bioTextController.addListener(_updateButtonState);
+    _image.addListener(_updateButtonState);
+  }
+
+  @override
+  void dispose() {
+    _bioTextController
+      ..removeListener(_updateButtonState)
+      ..dispose();
+    super.dispose();
+  }
+
+  void _updateButtonState() {
+    final enableButton = _bioTextController.text.isNotEmpty || _image.value != null;
+    _isButtonEnabled.value = enableButton;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,14 +61,20 @@ class _CompleteProfileDataPageState extends State<CompleteProfileDataPage> {
     return BlocConsumer<RegistrationBloc, RegistrationState>(
       listener: (context, state) {
         if (state is RegistrationFillFirstPageSuccessState) {
-          AppRouter.instance().go('/sign-in/complete-profile/second');
+          AppRouter.instance().go('/sign-up/complete-profile/second');
         }
       },
       builder: (context, state) {
         return Scaffold(
           backgroundColor: Theme.of(context).primaryColor,
           body: Stack(
+            alignment: Alignment.center,
             children: [
+              if (state is RegistrationLoading)
+                CircularProgressIndicator(
+                  color: AppColors.pumpkin.value,
+                  backgroundColor: AppColors.grape.value,
+                ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -159,64 +186,67 @@ class _CompleteProfileDataPageState extends State<CompleteProfileDataPage> {
                     ),
                   ),
                   const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 34),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.pumpkin.value,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(26),
-                              ),
-                              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 33),
-                            ),
-                            onPressed: _image.value == null || _bioTextController.text.isEmpty
-                                ? null
-                                : _onContinuePressed,
-                            child: Center(
-                              child: Text(
-                                S.current.continue_title.toUpperCase(),
-                                style: textTheme.medium15.copyWith(
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.whiteSmoke.value,
+                  ValueListenableBuilder<bool>(
+                    valueListenable: _isButtonEnabled,
+                    builder: (context, value, child) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 34),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.pumpkin.value,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(26),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 33),
+                                ),
+                                onPressed: value ? _onContinuePressed : null,
+                                child: Center(
+                                  child: Text(
+                                    S.current.continue_title.toUpperCase(),
+                                    style: textTheme.medium15.copyWith(
+                                      fontFamily: 'Montserrat',
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.whiteSmoke.value,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
+                            const SizedBox(width: 14),
+                            Expanded(
+                              flex: 1,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.blueCharcoal.value,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(26),
+                                    side: BorderSide(
+                                      color: AppColors.whiteSmoke.value,
+                                    ),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 33),
+                                ),
+                                onPressed: _onSkipPressed,
+                                child: Center(
+                                  child: Text(
+                                    S.current.skip.toUpperCase(),
+                                    style: textTheme.medium15.copyWith(
+                                      fontFamily: 'Montserrat',
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.whiteSmoke.value,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 14),
-                        Expanded(
-                          flex: 1,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.blueCharcoal.value,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(26),
-                                side: BorderSide(
-                                  color: AppColors.whiteSmoke.value,
-                                ),
-                              ),
-                              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 33),
-                            ),
-                            onPressed: _onSkipPressed,
-                            child: Center(
-                              child: Text(
-                                S.current.skip.toUpperCase(),
-                                style: textTheme.medium15.copyWith(
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.whiteSmoke.value,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
                 ],
               ),

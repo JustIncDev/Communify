@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,23 +23,48 @@ class CompleteProfileSocialLinksPage extends StatefulWidget {
 }
 
 class _CompleteProfileSocialLinksPageState extends State<CompleteProfileSocialLinksPage> {
-  final Map<SocialMediaType, TextEditingController> _textControllers = {};
+  final ValueNotifier<bool> _isContinueButtonEnabled = ValueNotifier(false);
+  final _twitterTextController = TextEditingController();
+  final _instTextController = TextEditingController();
+  final _facebookTextController = TextEditingController();
+  final _linkedInTextController = TextEditingController();
+  final _tikTokTextController = TextEditingController();
+  final _discordTextController = TextEditingController();
+  final _websiteTextController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-
-    for (final type in SocialMediaType.values) {
-      _textControllers[type] = TextEditingController();
-    }
+    _twitterTextController.addListener(_updateButtonState);
+    _instTextController.addListener(_updateButtonState);
+    _facebookTextController.addListener(_updateButtonState);
+    _linkedInTextController.addListener(_updateButtonState);
+    _tikTokTextController.addListener(_updateButtonState);
+    _discordTextController.addListener(_updateButtonState);
+    _websiteTextController.addListener(_updateButtonState);
   }
 
   @override
   void dispose() {
-    for (final controller in _textControllers.values) {
-      controller.dispose();
-    }
+    _twitterTextController.dispose();
+    _instTextController.dispose();
+    _facebookTextController.dispose();
+    _linkedInTextController.dispose();
+    _tikTokTextController.dispose();
+    _discordTextController.dispose();
+    _websiteTextController.dispose();
     super.dispose();
+  }
+
+  void _updateButtonState() {
+    final enableButton = _twitterTextController.text.isNotEmpty ||
+        _instTextController.text.isNotEmpty ||
+        _facebookTextController.text.isNotEmpty ||
+        _linkedInTextController.text.isNotEmpty ||
+        _tikTokTextController.text.isNotEmpty ||
+        _discordTextController.text.isNotEmpty ||
+        _websiteTextController.text.isNotEmpty;
+    _isContinueButtonEnabled.value = enableButton;
   }
 
   @override
@@ -72,151 +98,203 @@ class _CompleteProfileSocialLinksPageState extends State<CompleteProfileSocialLi
       builder: (context, state) {
         return Scaffold(
           backgroundColor: AppColorScheme.of(context).primary,
-          body: CustomScrollView(
-            slivers: [
-              appBar,
-              const SliverPadding(
-                padding: EdgeInsets.only(top: 10),
-                sliver: SliverToBoxAdapter(
-                  child: StoriesProgressIndicatorWidget(
-                    storiesNumber: 2,
-                    currentIndex: 2,
-                  ),
+          body: Stack(
+            children: [
+              if (state is RegistrationLoading)
+                CircularProgressIndicator(
+                  color: AppColors.pumpkin.value,
+                  backgroundColor: AppColors.grape.value,
                 ),
-              ),
-              SliverPadding(
-                padding: const EdgeInsets.only(
-                  top: 30,
-                  bottom: 45,
-                  left: 28,
-                  right: 28,
-                ),
-                sliver: SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      RichText(
-                        textAlign: TextAlign.left,
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: S.current.add_social_links,
-                              style: textTheme.bold30.copyWith(
-                                fontFamily: 'Montserrat',
-                                color: AppColors.whiteSmoke.value,
-                              ),
-                            ),
-                          ],
-                        ),
+              CustomScrollView(
+                slivers: [
+                  appBar,
+                  const SliverPadding(
+                    padding: EdgeInsets.only(top: 10),
+                    sliver: SliverToBoxAdapter(
+                      child: StoriesProgressIndicatorWidget(
+                        storiesNumber: 2,
+                        currentIndex: 2,
                       ),
-                      const SizedBox(height: 10),
-                      RichText(
-                        textAlign: TextAlign.left,
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: S.current.let_people_know_how_to_find,
-                              style: textTheme.medium15.copyWith(
-                                fontFamily: 'Montserrat',
-                                color: AppColors.pumpkin.value,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-              SliverPadding(
-                padding: const EdgeInsets.only(
-                  left: 28,
-                  right: 34,
-                ),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      final socialMediaType = SocialMediaType.values[index];
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          bottom: SocialMediaType.values.length - 1 == index ? 0 : 10,
-                        ),
-                        child: SocialMediaListTile(
-                          type: socialMediaType,
-                          textEditingController: _textControllers[socialMediaType]!,
-                        ),
-                      );
-                    },
-                    childCount: SocialMediaType.values.length,
-                  ),
-                ),
-              ),
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Column(
-                  children: [
-                    const Spacer(),
-                    const SizedBox(height: 34),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 34),
-                      child: Row(
+                  SliverPadding(
+                    padding: const EdgeInsets.only(
+                      top: 30,
+                      bottom: 45,
+                      left: 28,
+                      right: 28,
+                    ),
+                    sliver: SliverToBoxAdapter(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            flex: 2,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.pumpkin.value,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(26),
-                                ),
-                                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 33),
-                              ),
-                              onPressed: _onContinuePressed,
-                              child: Center(
-                                child: Text(
-                                  S.current.continue_title.toUpperCase(),
-                                  style: textTheme.medium15.copyWith(
+                          RichText(
+                            textAlign: TextAlign.left,
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: S.current.add_social_links,
+                                  style: textTheme.bold30.copyWith(
                                     fontFamily: 'Montserrat',
-                                    fontWeight: FontWeight.w500,
                                     color: AppColors.whiteSmoke.value,
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
                           ),
-                          const SizedBox(width: 14),
-                          Expanded(
-                            flex: 1,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.blueCharcoal.value,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(26),
-                                  side: BorderSide(
-                                    color: AppColors.whiteSmoke.value,
-                                  ),
-                                ),
-                                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 33),
-                              ),
-                              onPressed: _onSkipPressed,
-                              child: Center(
-                                child: Text(
-                                  S.current.skip.toUpperCase(),
+                          const SizedBox(height: 10),
+                          RichText(
+                            textAlign: TextAlign.left,
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: S.current.let_people_know_how_to_find,
                                   style: textTheme.medium15.copyWith(
                                     fontFamily: 'Montserrat',
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.whiteSmoke.value,
+                                    color: AppColors.pumpkin.value,
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 34), // Add extra space at the bottom if needed
-                  ],
-                ),
+                  ),
+                  SliverPadding(
+                    padding: const EdgeInsets.only(
+                      left: 28,
+                      right: 34,
+                    ),
+                    sliver: SliverToBoxAdapter(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: SocialMediaListTile(
+                              type: SocialMediaType.twitter,
+                              textEditingController: _twitterTextController,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: SocialMediaListTile(
+                              type: SocialMediaType.instagram,
+                              textEditingController: _instTextController,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: SocialMediaListTile(
+                              type: SocialMediaType.facebook,
+                              textEditingController: _facebookTextController,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: SocialMediaListTile(
+                              type: SocialMediaType.linkedin,
+                              textEditingController: _linkedInTextController,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: SocialMediaListTile(
+                              type: SocialMediaType.tiktok,
+                              textEditingController: _tikTokTextController,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: SocialMediaListTile(
+                              type: SocialMediaType.discord,
+                              textEditingController: _discordTextController,
+                            ),
+                          ),
+                          SocialMediaListTile(
+                            type: SocialMediaType.website,
+                            textEditingController: _websiteTextController,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Column(
+                      children: [
+                        const Spacer(),
+                        const SizedBox(height: 34),
+                        ValueListenableBuilder(
+                          valueListenable: _isContinueButtonEnabled,
+                          builder: (context, value, child) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 34),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: AppColors.pumpkin.value,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(26),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 15, horizontal: 33),
+                                      ),
+                                      onPressed: value ? _onContinuePressed : null,
+                                      child: Center(
+                                        child: Text(
+                                          S.current.continue_title.toUpperCase(),
+                                          style: textTheme.medium15.copyWith(
+                                            fontFamily: 'Montserrat',
+                                            fontWeight: FontWeight.w500,
+                                            color: AppColors.whiteSmoke.value,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 14),
+                                  Expanded(
+                                    flex: 1,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: AppColors.blueCharcoal.value,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(26),
+                                          side: BorderSide(
+                                            color: AppColors.whiteSmoke.value,
+                                          ),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 15, horizontal: 33),
+                                      ),
+                                      onPressed: _onSkipPressed,
+                                      child: Center(
+                                        child: Text(
+                                          S.current.skip.toUpperCase(),
+                                          style: textTheme.medium15.copyWith(
+                                            fontFamily: 'Montserrat',
+                                            fontWeight: FontWeight.w500,
+                                            color: AppColors.whiteSmoke.value,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 34), // Add extra space at the bottom if needed
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -225,13 +303,29 @@ class _CompleteProfileSocialLinksPageState extends State<CompleteProfileSocialLi
     );
   }
 
-  void _onContinuePressed() {}
+  void _onContinuePressed() {
+    final controllersTexts = [
+      _twitterTextController.text,
+      _instTextController.text,
+      _facebookTextController.text,
+      _linkedInTextController.text,
+      _tikTokTextController.text,
+      _discordTextController.text,
+      _websiteTextController.text,
+    ];
+    const socialMediaTypes = SocialMediaType.values;
+    final providers = <SocialMediaType, String>{};
+    for (var i = 0; i < socialMediaTypes.length; i++) {
+      providers[socialMediaTypes[i]] = controllersTexts[i];
+    }
+    context.read<RegistrationBloc>().add(RegistrationFillSecondProfilePageEvent(providers));
+  }
 
   void _onSkipPressed() {
     AppRouter.instance().go('/home');
   }
 
   void _onBackPressed() {
-    AppRouter.instance().go('/sign-in/complete-profile/first');
+    AppRouter.instance().go('/sign-up/complete-profile/first');
   }
 }

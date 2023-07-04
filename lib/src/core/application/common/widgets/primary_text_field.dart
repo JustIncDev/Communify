@@ -186,6 +186,7 @@ class _PrimaryTextFieldState extends State<PrimaryTextField> {
               child: Text(
                 widget.errorText!,
                 textAlign: TextAlign.right,
+                overflow: TextOverflow.ellipsis,
                 style: textTheme.regular15.copyWith(
                   color: AppColors.fireBrick.value,
                   fontFamily: 'Karla',

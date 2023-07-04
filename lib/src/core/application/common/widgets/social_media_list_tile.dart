@@ -18,10 +18,12 @@ enum SocialMediaType {
 class SocialMediaListTile extends StatelessWidget {
   const SocialMediaListTile({
     required this.type,
+    required this.textEditingController,
     super.key,
   });
 
   final SocialMediaType type;
+  final TextEditingController textEditingController;
 
   @override
   Widget build(BuildContext context) {

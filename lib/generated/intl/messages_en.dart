@@ -119,6 +119,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "website": MessageLookupByLibrary.simpleMessage("Website"),
         "website_hint":
             MessageLookupByLibrary.simpleMessage("www.YourWebsite.com"),
+        "welcome": MessageLookupByLibrary.simpleMessage("Welcome"),
         "welcome_to": MessageLookupByLibrary.simpleMessage("Welcome to"),
         "you_all_set": MessageLookupByLibrary.simpleMessage("You’re all set!"),
         "you_can_always_change": MessageLookupByLibrary.simpleMessage(

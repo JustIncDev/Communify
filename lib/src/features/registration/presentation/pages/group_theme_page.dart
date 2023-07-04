@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../core/application/common/widgets/primary_app_bar.dart';
 import '../../../../core/application/common/widgets/primary_text_field.dart';
+import '../../../../core/application/navigation/router.dart';
 import '../../../../core/util/assets/colors/color_scheme.dart';
 import '../../../../core/util/assets/colors/colors.dart';
 import '../../../../core/util/assets/text/text_extention.dart';
+import '../../../../core/util/enum.dart';
+import '../../application/registration_bloc.dart';
 
 class GroupThemePage extends StatefulWidget {
   const GroupThemePage({
@@ -34,6 +38,7 @@ class _GroupThemePageState extends State<GroupThemePage> {
     S.current.other,
   ];
   final selectedOption = ValueNotifier<String?>(null);
+  late final _otherFieldTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -57,159 +62,199 @@ class _GroupThemePageState extends State<GroupThemePage> {
       ),
     );
 
-    return Scaffold(
-      backgroundColor: AppColorScheme.of(context).primary,
-      body: CustomScrollView(
-        slivers: [
-          appBar,
-          SliverPadding(
-            padding: const EdgeInsets.all(23),
-            sliver: SliverToBoxAdapter(
-              child: RichText(
-                textAlign: TextAlign.left,
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: S.current.tell_us_about_your_group,
-                      style: textTheme.bold30.copyWith(
-                        fontFamily: 'Montserrat',
-                        color: AppColors.whiteSmoke.value,
+    return BlocConsumer<RegistrationBloc, RegistrationState>(
+      listener: (context, state) {
+        if (state is RegistrationSelectThemeGroupSuccessState) {
+          AppRouter.instance().go('/sign-up/group/choose-name', extra: state.groupTheme);
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          backgroundColor: AppColorScheme.of(context).primary,
+          body: CustomScrollView(
+            slivers: [
+              appBar,
+              SliverFillRemaining(
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(23),
+                        child: RichText(
+                          textAlign: TextAlign.left,
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: S.current.tell_us_about_your_group,
+                                style: textTheme.bold30.copyWith(
+                                  fontFamily: 'Montserrat',
+                                  color: AppColors.whiteSmoke.value,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.only(
-              left: 60,
-              right: 60,
-              top: 7,
-            ),
-            sliver: ValueListenableBuilder<String?>(
-              valueListenable: selectedOption,
-              builder: (context, value, child) {
-                return SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      return Padding(
-                        padding: EdgeInsets.only(bottom: index == options.length - 1 ? 0 : 12),
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            left: 60,
+                            right: 60,
+                          ),
+                          child: ValueListenableBuilder<String?>(
+                            valueListenable: selectedOption,
+                            builder: (context, value, child) {
+                              return ListView.builder(
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                        bottom: index == options.length - 1 ? 0 : 12),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        _CheckBoxWidget(
+                                          onTap: () {
+                                            selectedOption.value = options[index];
+                                          },
+                                          selected: selectedOption.value == options[index],
+                                        ),
+                                        const SizedBox(width: 26),
+                                        Text(
+                                          options[index],
+                                          style: textTheme.medium15.copyWith(
+                                            color: AppColors.whiteSmoke.value,
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: 'Karla',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                itemCount: options.length,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 36),
+                        child: ValueListenableBuilder<String?>(
+                          valueListenable: selectedOption,
+                          builder: (context, value, child) {
+                            if (value == S.current.other) {
+                              return PrimaryTextField(
+                                hintText: S.current.describe,
+                                controller: _otherFieldTextController,
+                                errorText: state is RegistrationInputError &&
+                                        state.errors.containsKey(FieldType.other)
+                                    ? state.errors[FieldType.other]
+                                    : null,
+                                keyboardType: TextInputType.text,
+                              );
+                            } else {
+                              return const SizedBox.shrink();
+                            }
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 25),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            _CheckBoxWidget(
-                              onTap: () {
-                                selectedOption.value = options[index];
-                              },
-                              selected: selectedOption.value == options[index],
+                            Expanded(
+                              flex: 2,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.pumpkin.value,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(26),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 33),
+                                ),
+                                onPressed: _onContinuePressed,
+                                child: Center(
+                                  child: Text(
+                                    S.current.continue_title.toUpperCase(),
+                                    style: textTheme.medium15.copyWith(
+                                      fontFamily: 'Montserrat',
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.whiteSmoke.value,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
-                            const SizedBox(width: 26),
-                            Text(
-                              options[index],
-                              style: textTheme.medium15.copyWith(
-                                color: AppColors.whiteSmoke.value,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'Karla',
+                            const SizedBox(width: 14),
+                            Expanded(
+                              flex: 1,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.blueCharcoal.value,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(26),
+                                    side: BorderSide(
+                                      color: AppColors.whiteSmoke.value,
+                                    ),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 33),
+                                ),
+                                onPressed: _onSkipPressed,
+                                child: Center(
+                                  child: Text(
+                                    S.current.skip.toUpperCase(),
+                                    style: textTheme.medium15.copyWith(
+                                      fontFamily: 'Montserrat',
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.whiteSmoke.value,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           ],
                         ),
-                      );
-                    },
-                    childCount: options.length,
+                      ),
+                      const SizedBox(height: 22),
+                    ],
                   ),
-                );
-              },
-            ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.all(23),
-            sliver: SliverToBoxAdapter(
-              child: ValueListenableBuilder<String?>(
-                valueListenable: selectedOption,
-                builder: (context, value, child) {
-                  if (value == S.current.other) {
-                    return PrimaryTextField(
-                      hintText: S.current.describe,
-                      controller: TextEditingController(),
-                    );
-                  } else {
-                    return const SizedBox.shrink();
-                  }
-                },
+                ),
               ),
-            ),
+            ],
           ),
-          SliverPadding(
-            padding: const EdgeInsets.all(23),
-            sliver: SliverToBoxAdapter(
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.pumpkin.value,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(26),
-                        ),
-                        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 33),
-                      ),
-                      onPressed: _onContinuePressed,
-                      child: Center(
-                        child: Text(
-                          S.current.continue_title.toUpperCase(),
-                          style: textTheme.medium15.copyWith(
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.whiteSmoke.value,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    flex: 1,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.blueCharcoal.value,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(26),
-                          side: BorderSide(
-                            color: AppColors.whiteSmoke.value,
-                          ),
-                        ),
-                        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 33),
-                      ),
-                      onPressed: _onSkipPressed,
-                      child: Center(
-                        child: Text(
-                          S.current.skip.toUpperCase(),
-                          style: textTheme.medium15.copyWith(
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.whiteSmoke.value,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
-  void _onContinuePressed() {}
+  void _onContinuePressed() {
+    if (selectedOption.value != null) {
+      if (selectedOption.value != S.current.other) {
+        context.read<RegistrationBloc>().add(
+              RegistrationSelectThemeGroupEvent(selectedOption.value!, other: false),
+            );
+      } else {
+        context.read<RegistrationBloc>().add(
+              RegistrationSelectThemeGroupEvent(
+                _otherFieldTextController.text,
+                other: true,
+              ),
+            );
+      }
+    }
+  }
 
-  void _onSkipPressed() {}
+  void _onSkipPressed() {
+    AppRouter.instance().go('/sign-up/group/choose-name');
+  }
 
-  void _onBackPressed() {}
+  void _onBackPressed() {
+    AppRouter.instance().go('/sign-up/credentials');
+  }
 }
 
 class _CheckBoxWidget extends StatelessWidget {

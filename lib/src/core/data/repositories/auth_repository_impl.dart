@@ -1,13 +1,14 @@
 import 'package:dio/dio.dart';
+import 'package:gotrue/src/types/auth_response.dart';
 
-import '../../domain/auth/auth_repository.dart';
 import '../../domain/entities/auth_request.dart';
 import '../../domain/entities/user.dart';
+import '../../domain/repositories/auth_repository.dart';
 import '../datasources/local/auth_local_data_source.dart';
 import '../datasources/local/auth_local_data_source_impl.dart';
 import '../datasources/remote/auth_remote_data_source.dart';
 import '../datasources/remote/auth_remote_data_source_impl.dart';
-import 'package:gotrue/src/types/auth_response.dart';
+import '../models/bad_words.dart';
 
 final class AuthRepositoryImpl implements IAuthRepository {
   final IAuthLocalDataSource _authLocalDataSource;
@@ -18,8 +19,13 @@ final class AuthRepositoryImpl implements IAuthRepository {
         _authRemoteDataSource = AuthRemoteDataSourceImpl(dio);
 
   @override
-  User? getCurrentUser() {
-    throw UnimplementedError();
+  Future<UserDomain?> getCurrentUser() async {
+    final response = await _authRemoteDataSource.getCurrentUser();
+    if (response != null) {
+      return UserDomain(id: response.id, email: response.email);
+    } else {
+      return null;
+    }
   }
 
   @override
@@ -38,18 +44,18 @@ final class AuthRepositoryImpl implements IAuthRepository {
   }
 
   @override
-  Future<User?> signUpWithEmail(AuthRequest request) async {
+  Future<UserDomain?> signUpWithEmail(AuthRequest request) async {
     final response = await _authRemoteDataSource.signUpWithEmail(request.email, request.password);
     return _getUserAndSessionData(response);
   }
 
   @override
-  Future<User?> signInWithEmail(AuthRequest request) async {
+  Future<UserDomain?> signInWithEmail(AuthRequest request) async {
     final response = await _authRemoteDataSource.signInWithEmail(request.email, request.password);
     return _getUserAndSessionData(response);
   }
 
-  Future<User?> _getUserAndSessionData(AuthResponse response) async {
+  Future<UserDomain?> _getUserAndSessionData(AuthResponse response) async {
     final userData = response.user;
     final tokenData = response.session;
     if (tokenData != null) {
@@ -60,9 +66,19 @@ final class AuthRepositoryImpl implements IAuthRepository {
       );
     }
     if (userData != null) {
-      return User(id: userData.id, email: userData.email);
+      return UserDomain(id: userData.id, email: userData.email);
     } else {
       return null;
+    }
+  }
+
+  @override
+  Future<bool> checkForBadWord(BadWordsRequest request) async {
+    final response = await _authRemoteDataSource.checkForBadWord(request);
+    if ((response.badWordsTotal ?? 0) > 0) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

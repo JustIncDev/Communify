@@ -60,14 +60,9 @@ class AppRouter {
             GoRoute(
               path: '/sign-up',
               pageBuilder: (context, state) {
-                final blocFactory = Provider.of<BlocFactory>(context);
-                return CustomTransitionPage<void>(
+                return const CustomTransitionPage<void>(
                   transitionDuration: Duration.zero,
-                  child: BlocProvider(
-                    create: (context) => blocFactory.createRegistrationBloc(),
-                    lazy: false,
-                    child: const RegistrationScreen(),
-                  ),
+                  child: RegistrationScreen(),
                   transitionsBuilder: _buildTransition,
                 );
               },
@@ -97,15 +92,19 @@ class AppRouter {
                 ),
                 GoRoute(
                   path: 'group/choose-name',
-                  pageBuilder: (context, state) => const CustomTransitionPage<void>(
-                    child: GroupNamePage(),
+                  pageBuilder: (context, state) => CustomTransitionPage<void>(
+                    child: GroupNamePage(
+                      groupTheme: state.extra as String?,
+                    ),
                     transitionsBuilder: _buildTransition,
                   ),
                 ),
                 GoRoute(
                   path: 'success',
-                  pageBuilder: (context, state) => const CustomTransitionPage<void>(
-                    child: SuccessfulPage(),
+                  pageBuilder: (context, state) => CustomTransitionPage<void>(
+                    child: SuccessfulPage(
+                      groupName: state.extra as String?,
+                    ),
                     transitionsBuilder: _buildTransition,
                   ),
                 ),

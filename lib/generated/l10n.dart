@@ -590,6 +590,16 @@ class S {
     );
   }
 
+  /// `Welcome`
+  String get welcome {
+    return Intl.message(
+      'Welcome',
+      name: 'welcome',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Complete your\nprofile`
   String get complete_your_profile {
     return Intl.message(

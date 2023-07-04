@@ -11,6 +11,7 @@ import '../../../core/application/common/widgets/primary_text_field.dart';
 import '../../../core/application/navigation/router.dart';
 import '../../../core/util/assets/colors/colors.dart';
 import '../../../core/util/assets/text/text_extention.dart';
+import '../../../core/util/enum.dart';
 import '../../../core/util/util.dart';
 import '../application/connect_bloc.dart';
 import 'widgets/social_button_widget.dart';
@@ -158,7 +159,7 @@ class _SocialComponentState extends State<_SocialComponent> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: _onContinuePressed,
+                  onPressed: state is ConnectLoading ? null : _onContinuePressed,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.blueCharcoal.value,
                     padding: const EdgeInsets.symmetric(vertical: 15),

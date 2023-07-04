@@ -7,9 +7,10 @@ import 'package:log_service/lib.dart';
 import 'package:retrofit/http.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../core/domain/auth/auth_repository.dart';
 import '../../../core/domain/entities/auth_request.dart';
+import '../../../core/domain/repositories/auth_repository.dart';
 import '../../../core/util/api_error.dart';
+import '../../../core/util/enum.dart';
 import '../../../core/util/util.dart';
 
 part 'connect_event.dart';
@@ -45,18 +46,22 @@ class ConnectBloc extends Bloc<ConnectEvent, ConnectState> {
 
     try {
       emit(ConnectLoading());
-      await _authRepository.signUpWithEmail(
+      final userData = await _authRepository.signUpWithEmail(
         AuthRequest(
           email: event.email,
           password: event.password,
         ),
       );
-      emit(ConnectRegistrationSuccess());
+      if (userData != null) {
+        emit(ConnectRegistrationSuccess());
+      } else {
+        throw Exception('User is not created');
+      }
     } on AuthException catch (e, s) {
       final errorType = getTypeFromMessage(e.message);
       if (errorType == ServerError.userAlreadyExists) {
         await _onSignInWithEmail(event, emit);
-      } else if (errorType == ServerError.invalidCredentials) {
+      } else {
         emit(ConnectFailure(e.message));
       }
     } on Object catch (e, s) {

@@ -1,10 +1,5 @@
 part of 'connect_bloc.dart';
 
-enum FieldType {
-  email,
-  password,
-}
-
 sealed class ConnectState extends Equatable {}
 
 final class ConnectInitial extends ConnectState {
@@ -23,7 +18,7 @@ final class ConnectFailure extends ConnectState {
   ConnectFailure(this.message);
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [message];
 }
 
 base class ConnectRegistrationSuccess extends ConnectState {

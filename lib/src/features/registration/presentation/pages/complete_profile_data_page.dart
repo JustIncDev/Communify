@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:log_service/lib.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -12,8 +13,11 @@ import '../../../../core/application/common/widgets/gradient/gradient_box_border
 import '../../../../core/application/common/widgets/gradient/gradient_outline_input_border.dart';
 import '../../../../core/application/common/widgets/primary_text_field.dart';
 import '../../../../core/application/common/widgets/stories_indicator_widget.dart';
+import '../../../../core/application/navigation/router.dart';
 import '../../../../core/util/assets/colors/colors.dart';
 import '../../../../core/util/assets/text/text_extention.dart';
+import '../../../../core/util/enum.dart';
+import '../../application/registration_bloc.dart';
 
 class CompleteProfileDataPage extends StatefulWidget {
   const CompleteProfileDataPage({
@@ -27,192 +31,212 @@ class CompleteProfileDataPage extends StatefulWidget {
 class _CompleteProfileDataPageState extends State<CompleteProfileDataPage> {
   final _image = ValueNotifier<XFile?>(null);
   final ValueNotifier<bool> _isBottomSheetOpen = ValueNotifier(false);
+  final _bioTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
 
-    return Stack(
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 6,
-            ),
-            const StoriesProgressIndicatorWidget(
-              currentIndex: 1,
-              storiesNumber: 2,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 28),
-              child: RichText(
-                textAlign: TextAlign.left,
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: S.current.complete_your_profile,
-                      style: textTheme.bold30.copyWith(
-                        fontFamily: 'Montserrat',
-                        color: AppColors.whiteSmoke.value,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 18),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 28),
-              child: Column(
+    return BlocConsumer<RegistrationBloc, RegistrationState>(
+      listener: (context, state) {
+        if (state is RegistrationFillFirstPageSuccessState) {
+          AppRouter.instance().go('/sign-in/complete-profile/second');
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          backgroundColor: Theme.of(context).primaryColor,
+          body: Stack(
+            children: [
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    S.current.profile_picture,
-                    style: textTheme.medium15.copyWith(
-                      color: AppColors.pumpkin.value,
-                      fontFamily: 'Montserrat',
-                    ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 6,
                   ),
-                  const SizedBox(height: 7),
-                  GestureDetector(
-                    onTap: () => _showPicker(context),
-                    child: ValueListenableBuilder<XFile?>(
-                      valueListenable: _image,
-                      builder: (context, value, child) {
-                        return Container(
-                          padding: EdgeInsets.all(value != null ? 0 : 55),
-                          decoration: BoxDecoration(
-                            color: AppColors.swamp.value.withOpacity(0.8),
-                            borderRadius: BorderRadius.circular(15),
-                            border: GradientBoxBorder(
-                              gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  AppColors.gainsboro.value.withOpacity(0.5),
-                                  AppColors.darkSlate.value,
-                                ],
-                              ),
-                              width: 1,
+                  const StoriesProgressIndicatorWidget(
+                    currentIndex: 1,
+                    storiesNumber: 2,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 28),
+                    child: RichText(
+                      textAlign: TextAlign.left,
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: S.current.complete_your_profile,
+                            style: textTheme.bold30.copyWith(
+                              fontFamily: 'Montserrat',
+                              color: AppColors.whiteSmoke.value,
                             ),
                           ),
-                          child: value != null
-                              ? ClipRRect(
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 18),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 28),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          S.current.profile_picture,
+                          style: textTheme.medium15.copyWith(
+                            color: AppColors.pumpkin.value,
+                            fontFamily: 'Montserrat',
+                          ),
+                        ),
+                        const SizedBox(height: 7),
+                        GestureDetector(
+                          onTap: () => _showPicker(context),
+                          child: ValueListenableBuilder<XFile?>(
+                            valueListenable: _image,
+                            builder: (context, value, child) {
+                              return Container(
+                                padding: EdgeInsets.all(value != null ? 0 : 55),
+                                decoration: BoxDecoration(
+                                  color: AppColors.swamp.value.withOpacity(0.8),
                                   borderRadius: BorderRadius.circular(15),
-                                  child: Image.file(
-                                    File(value.path),
-                                    width: 150,
-                                    height: 150,
-                                    fit: BoxFit.cover, // or BoxFit.contain
+                                  border: GradientBoxBorder(
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: [
+                                        AppColors.gainsboro.value.withOpacity(0.5),
+                                        AppColors.darkSlate.value,
+                                      ],
+                                    ),
+                                    width: 1,
                                   ),
-                                )
-                              : AppAssets.images.photoIcon.image(),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 28),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    S.current.your_bio,
-                    style: textTheme.medium15.copyWith(
-                      color: AppColors.pumpkin.value,
-                      fontFamily: 'Montserrat',
-                    ),
-                  ),
-                  const SizedBox(height: 7),
-                  PrimaryTextField(
-                    hintText: S.current.tell_us_about_yourself,
-                    controller: TextEditingController(),
-                    maxLength: 500,
-                    minLines: 12,
-                    maxLines: 15,
-                  ),
-                ],
-              ),
-            ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 34),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.pumpkin.value,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(26),
+                                ),
+                                child: value != null
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(15),
+                                        child: Image.file(
+                                          File(value.path),
+                                          width: 150,
+                                          height: 150,
+                                          fit: BoxFit.cover, // or BoxFit.contain
+                                        ),
+                                      )
+                                    : AppAssets.images.photoIcon.image(),
+                              );
+                            },
+                          ),
                         ),
-                        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 33),
-                      ),
-                      onPressed: _onContinuePressed,
-                      child: Center(
-                        child: Text(
-                          S.current.continue_title.toUpperCase(),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 28),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          S.current.your_bio,
                           style: textTheme.medium15.copyWith(
+                            color: AppColors.pumpkin.value,
                             fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.whiteSmoke.value,
                           ),
                         ),
-                      ),
+                        const SizedBox(height: 7),
+                        PrimaryTextField(
+                          hintText: S.current.tell_us_about_yourself,
+                          controller: _bioTextController,
+                          maxLength: 500,
+                          minLines: 12,
+                          maxLines: 15,
+                          errorText: state is RegistrationInputError &&
+                                  state.errors.containsKey(FieldType.bio)
+                              ? state.errors[FieldType.bio]
+                              : null,
+                          keyboardType: TextInputType.text,
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    flex: 1,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.blueCharcoal.value,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(26),
-                          side: BorderSide(
-                            color: AppColors.whiteSmoke.value,
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 34),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.pumpkin.value,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(26),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 33),
+                            ),
+                            onPressed: _image.value == null || _bioTextController.text.isEmpty
+                                ? null
+                                : _onContinuePressed,
+                            child: Center(
+                              child: Text(
+                                S.current.continue_title.toUpperCase(),
+                                style: textTheme.medium15.copyWith(
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.whiteSmoke.value,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 33),
-                      ),
-                      onPressed: _onSkipPressed,
-                      child: Center(
-                        child: Text(
-                          S.current.skip.toUpperCase(),
-                          style: textTheme.medium15.copyWith(
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.whiteSmoke.value,
+                        const SizedBox(width: 14),
+                        Expanded(
+                          flex: 1,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.blueCharcoal.value,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(26),
+                                side: BorderSide(
+                                  color: AppColors.whiteSmoke.value,
+                                ),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 33),
+                            ),
+                            onPressed: _onSkipPressed,
+                            child: Center(
+                              child: Text(
+                                S.current.skip.toUpperCase(),
+                                style: textTheme.medium15.copyWith(
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.whiteSmoke.value,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
-        ValueListenableBuilder(
-          builder: (context, value, child) => _isBottomSheetOpen.value
-              ? Positioned.fill(
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                    child: Container(
-                      color: AppColors.blueCharcoal.value.withOpacity(0.8),
-                    ),
-                  ),
-                )
-              : const SizedBox.shrink(),
-          valueListenable: _isBottomSheetOpen,
-        ),
-      ],
+              ValueListenableBuilder(
+                builder: (context, value, child) => _isBottomSheetOpen.value
+                    ? Positioned.fill(
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                          child: Container(
+                            color: AppColors.blueCharcoal.value.withOpacity(0.8),
+                          ),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+                valueListenable: _isBottomSheetOpen,
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -279,7 +303,7 @@ class _CompleteProfileDataPageState extends State<CompleteProfileDataPage> {
             if (_image.value != null)
               ListTile(
                 leading: AppAssets.images.deleteIcon.image(),
-                title: Text('Remove current picture'),
+                title: const Text('Remove current picture'),
                 onTap: () {
                   _image.value = null;
                   Navigator.pop(context);
@@ -336,7 +360,16 @@ class _CompleteProfileDataPageState extends State<CompleteProfileDataPage> {
     }
   }
 
-  void _onContinuePressed() {}
+  void _onContinuePressed() {
+    context.read<RegistrationBloc>().add(
+          RegistrationFillFirstProfilePageEvent(
+            profilePicture: _image.value!,
+            bioDescription: _bioTextController.text,
+          ),
+        );
+  }
 
-  void _onSkipPressed() {}
+  void _onSkipPressed() {
+    AppRouter.instance().go('/sign-up/complete-profile/second');
+  }
 }

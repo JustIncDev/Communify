@@ -53,6 +53,15 @@ final class RegistrationFinishGroupCreateState extends RegistrationState {
   List<Object?> get props => [groupName];
 }
 
+final class RegistrationFinishInitializeSuccessState extends RegistrationState {
+  final String username;
+
+  RegistrationFinishInitializeSuccessState(this.username);
+
+  @override
+  List<Object?> get props => [username];
+}
+
 final class RegistrationFillFirstPageSuccessState extends RegistrationState {
   @override
   List<Object?> get props => [];

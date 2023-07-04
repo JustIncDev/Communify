@@ -147,7 +147,7 @@ class SocialMediaListTile extends StatelessWidget {
           child: PrimaryTextField(
             hintText: textFieldHint,
             borderRadius: 10,
-            controller: TextEditingController(),
+            controller: textEditingController,
           ),
         ),
       ],

@@ -54,6 +54,11 @@ final class RegistrationCreateGroupFinishEvent extends RegistrationEvent {
   List<Object?> get props => [groupName, groupTheme];
 }
 
+final class RegistrationSuccessInitEvent extends RegistrationEvent {
+  @override
+  List<Object?> get props => [];
+}
+
 final class RegistrationFillFirstProfilePageEvent extends RegistrationEvent {
   final XFile profilePicture;
   final String bioDescription;

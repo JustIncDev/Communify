@@ -37,6 +37,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: AppColors.whiteSmoke.value,
                 ),
               ),
+            ),
+            PrimaryButton(
+              onPressed: _onDeleteAccountPressed,
+              child: Text(
+                'Delete account',
+                style: textTheme.bold20.copyWith(
+                  color: AppColors.whiteSmoke.value,
+                ),
+              ),
             )
           ],
         ),
@@ -47,5 +56,13 @@ class _HomeScreenState extends State<HomeScreen> {
   void _onSignOutPressed() {
     Supabase.instance.client.auth.signOut();
     AppRouter.instance().go('/login');
+  }
+
+  void _onDeleteAccountPressed() {
+    final userId = Supabase.instance.client.auth.currentUser?.id;
+    if (userId != null) {
+      Supabase.instance.client.auth.admin.deleteUser(userId);
+      AppRouter.instance().go('/login');
+    }
   }
 }

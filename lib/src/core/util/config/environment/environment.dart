@@ -17,7 +17,8 @@ final class Environment<T> implements Listenable {
   set config(T c) => _config.value = c;
 
   /// Is this application running in debug mode.
-  bool get isDebug => _currentBuildType == BuildType.debug || _currentBuildType == BuildType.qa;
+  bool get isDebug =>
+      _currentBuildType == BuildType.debug || _currentBuildType == BuildType.qa;
 
   /// Is this application running in release mode.
   bool get isRelease => _currentBuildType == BuildType.release;
@@ -27,7 +28,8 @@ final class Environment<T> implements Listenable {
 
   ValueNotifier<T> _config;
 
-  Environment._(this._currentBuildType, T config) : _config = ValueNotifier<T>(config);
+  Environment._(this._currentBuildType, T config)
+      : _config = ValueNotifier<T>(config);
 
   /// Provides instance [Environment].
   factory Environment.instance() => _instance as Environment<T>;

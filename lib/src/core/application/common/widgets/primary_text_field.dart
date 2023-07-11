@@ -56,7 +56,8 @@ class _PrimaryTextFieldState extends State<PrimaryTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
+    final textTheme =
+        Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,7 +131,8 @@ class _PrimaryTextFieldState extends State<PrimaryTextField> {
                         AppColors.darkSlate.value,
                       ],
                     ),
-                    borderRadius: BorderRadius.circular(widget.borderRadius ?? 25),
+                    borderRadius:
+                        BorderRadius.circular(widget.borderRadius ?? 25),
                     width: 1,
                   ),
             border: widget.errorText != null
@@ -150,7 +152,8 @@ class _PrimaryTextFieldState extends State<PrimaryTextField> {
                         AppColors.darkSlate.value,
                       ],
                     ),
-                    borderRadius: BorderRadius.circular(widget.borderRadius ?? 25),
+                    borderRadius:
+                        BorderRadius.circular(widget.borderRadius ?? 25),
                     width: 1,
                   ),
             suffixIcon: widget.suffixIcon,

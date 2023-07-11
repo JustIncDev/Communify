@@ -50,7 +50,8 @@ class BaseContainerWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(25),
         border: GradientBoxBorder(
           gradient: LinearGradient(
-            colors: borderGradientColors ?? [AppColors.suvaGrey.value, AppColors.pumpkin.value],
+            colors: borderGradientColors ??
+                [AppColors.suvaGrey.value, AppColors.pumpkin.value],
             stops: borderGradientStops,
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,

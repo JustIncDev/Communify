@@ -91,7 +91,8 @@ class _LoginBodyWidget extends StatefulWidget {
 class _LoginBodyWidgetState extends State<_LoginBodyWidget> {
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
+    final textTheme =
+        Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,

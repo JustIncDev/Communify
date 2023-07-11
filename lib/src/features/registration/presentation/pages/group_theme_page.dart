@@ -42,7 +42,8 @@ class _GroupThemePageState extends State<GroupThemePage> {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
+    final textTheme =
+        Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
 
     final appBar = PrimaryAppBar(
       leading: Center(
@@ -65,7 +66,8 @@ class _GroupThemePageState extends State<GroupThemePage> {
     return BlocConsumer<RegistrationBloc, RegistrationState>(
       listener: (context, state) {
         if (state is RegistrationSelectThemeGroupSuccessState) {
-          AppRouter.instance().go('/sign-up/group/choose-name', extra: state.groupTheme);
+          AppRouter.instance()
+              .go('/sign-up/group/choose-name', extra: state.groupTheme);
         }
       },
       builder: (context, state) {
@@ -117,24 +119,32 @@ class _GroupThemePageState extends State<GroupThemePage> {
                                 valueListenable: selectedOption,
                                 builder: (context, value, child) {
                                   return ListView.builder(
-                                    itemBuilder: (BuildContext context, int index) {
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
                                       return Padding(
                                         padding: EdgeInsets.only(
-                                            bottom: index == options.length - 1 ? 0 : 12),
+                                            bottom: index == options.length - 1
+                                                ? 0
+                                                : 12),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
                                           children: [
                                             _CheckBoxWidget(
                                               onTap: () {
-                                                selectedOption.value = options[index];
+                                                selectedOption.value =
+                                                    options[index];
                                               },
-                                              selected: selectedOption.value == options[index],
+                                              selected: selectedOption.value ==
+                                                  options[index],
                                             ),
                                             const SizedBox(width: 26),
                                             Text(
                                               options[index],
-                                              style: textTheme.medium15.copyWith(
-                                                color: AppColors.whiteSmoke.value,
+                                              style:
+                                                  textTheme.medium15.copyWith(
+                                                color:
+                                                    AppColors.whiteSmoke.value,
                                                 fontWeight: FontWeight.w500,
                                                 fontFamily: 'Karla',
                                               ),
@@ -158,8 +168,10 @@ class _GroupThemePageState extends State<GroupThemePage> {
                                   return PrimaryTextField(
                                     hintText: S.current.describe,
                                     controller: _otherFieldTextController,
-                                    errorText: state is RegistrationInputError &&
-                                            state.errors.containsKey(FieldType.other)
+                                    errorText: state
+                                                is RegistrationInputError &&
+                                            state.errors
+                                                .containsKey(FieldType.other)
                                         ? state.errors[FieldType.other]
                                         : null,
                                     keyboardType: TextInputType.text,
@@ -174,16 +186,19 @@ class _GroupThemePageState extends State<GroupThemePage> {
                             valueListenable: selectedOption,
                             builder: (context, value, child) {
                               return Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 25),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 36, vertical: 25),
                                 child: Row(
                                   children: [
                                     Expanded(
                                       flex: 2,
                                       child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor: AppColors.pumpkin.value,
+                                          backgroundColor:
+                                              AppColors.pumpkin.value,
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(26),
+                                            borderRadius:
+                                                BorderRadius.circular(26),
                                           ),
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 15, horizontal: 33),
@@ -193,7 +208,8 @@ class _GroupThemePageState extends State<GroupThemePage> {
                                             : null,
                                         child: Center(
                                           child: Text(
-                                            S.current.continue_title.toUpperCase(),
+                                            S.current.continue_title
+                                                .toUpperCase(),
                                             style: textTheme.medium15.copyWith(
                                               fontFamily: 'Montserrat',
                                               fontWeight: FontWeight.w500,
@@ -208,9 +224,11 @@ class _GroupThemePageState extends State<GroupThemePage> {
                                       flex: 1,
                                       child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor: AppColors.blueCharcoal.value,
+                                          backgroundColor:
+                                              AppColors.blueCharcoal.value,
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(26),
+                                            borderRadius:
+                                                BorderRadius.circular(26),
                                             side: BorderSide(
                                               color: AppColors.whiteSmoke.value,
                                             ),
@@ -254,7 +272,8 @@ class _GroupThemePageState extends State<GroupThemePage> {
     if (selectedOption.value != null) {
       if (selectedOption.value != S.current.other) {
         context.read<RegistrationBloc>().add(
-              RegistrationSelectThemeGroupEvent(selectedOption.value!, other: false),
+              RegistrationSelectThemeGroupEvent(selectedOption.value!,
+                  other: false),
             );
       } else {
         context.read<RegistrationBloc>().add(
@@ -278,7 +297,6 @@ class _GroupThemePageState extends State<GroupThemePage> {
 
 class _CheckBoxWidget extends StatelessWidget {
   const _CheckBoxWidget({
-    super.key,
     required this.onTap,
     this.selected = false,
   });

@@ -19,10 +19,12 @@ class CompleteProfileSocialLinksPage extends StatefulWidget {
   });
 
   @override
-  State<CompleteProfileSocialLinksPage> createState() => _CompleteProfileSocialLinksPageState();
+  State<CompleteProfileSocialLinksPage> createState() =>
+      _CompleteProfileSocialLinksPageState();
 }
 
-class _CompleteProfileSocialLinksPageState extends State<CompleteProfileSocialLinksPage> {
+class _CompleteProfileSocialLinksPageState
+    extends State<CompleteProfileSocialLinksPage> {
   final ValueNotifier<bool> _isContinueButtonEnabled = ValueNotifier(false);
   final _twitterTextController = TextEditingController();
   final _instTextController = TextEditingController();
@@ -69,7 +71,8 @@ class _CompleteProfileSocialLinksPageState extends State<CompleteProfileSocialLi
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
+    final textTheme =
+        Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
 
     final appBar = PrimaryAppBar(
       leading: Center(
@@ -230,24 +233,29 @@ class _CompleteProfileSocialLinksPageState extends State<CompleteProfileSocialLi
                           valueListenable: _isContinueButtonEnabled,
                           builder: (context, value, child) {
                             return Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 34),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 35, vertical: 34),
                               child: Row(
                                 children: [
                                   Expanded(
                                     flex: 2,
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: AppColors.pumpkin.value,
+                                        backgroundColor:
+                                            AppColors.pumpkin.value,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(26),
+                                          borderRadius:
+                                              BorderRadius.circular(26),
                                         ),
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 15, horizontal: 33),
                                       ),
-                                      onPressed: value ? _onContinuePressed : null,
+                                      onPressed:
+                                          value ? _onContinuePressed : null,
                                       child: Center(
                                         child: Text(
-                                          S.current.continue_title.toUpperCase(),
+                                          S.current.continue_title
+                                              .toUpperCase(),
                                           style: textTheme.medium15.copyWith(
                                             fontFamily: 'Montserrat',
                                             fontWeight: FontWeight.w500,
@@ -262,9 +270,11 @@ class _CompleteProfileSocialLinksPageState extends State<CompleteProfileSocialLi
                                     flex: 1,
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: AppColors.blueCharcoal.value,
+                                        backgroundColor:
+                                            AppColors.blueCharcoal.value,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(26),
+                                          borderRadius:
+                                              BorderRadius.circular(26),
                                           side: BorderSide(
                                             color: AppColors.whiteSmoke.value,
                                           ),
@@ -290,7 +300,9 @@ class _CompleteProfileSocialLinksPageState extends State<CompleteProfileSocialLi
                             );
                           },
                         ),
-                        const SizedBox(height: 34), // Add extra space at the bottom if needed
+                        const SizedBox(
+                            height:
+                                34), // Add extra space at the bottom if needed
                       ],
                     ),
                   ),
@@ -318,7 +330,9 @@ class _CompleteProfileSocialLinksPageState extends State<CompleteProfileSocialLi
     for (var i = 0; i < socialMediaTypes.length; i++) {
       providers[socialMediaTypes[i]] = controllersTexts[i];
     }
-    context.read<RegistrationBloc>().add(RegistrationFillSecondProfilePageEvent(providers));
+    context
+        .read<RegistrationBloc>()
+        .add(RegistrationFillSecondProfilePageEvent(providers));
   }
 
   void _onSkipPressed() {

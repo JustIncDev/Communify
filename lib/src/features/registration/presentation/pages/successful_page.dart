@@ -27,7 +27,8 @@ class _SuccessfulPageState extends State<SuccessfulPage> {
   final selectedOptionNotifier = ValueNotifier<bool?>(null);
 
   late final RiveAnimationController _controller = SimpleAnimation('Success');
-  final ValueNotifier<Artboard?> artboardNotifier = ValueNotifier<Artboard?>(null);
+  final ValueNotifier<Artboard?> artboardNotifier =
+      ValueNotifier<Artboard?>(null);
   String? name;
 
   @override
@@ -47,7 +48,8 @@ class _SuccessfulPageState extends State<SuccessfulPage> {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
+    final textTheme =
+        Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
 
     return BlocBuilder<RegistrationBloc, RegistrationState>(
       builder: (context, state) {
@@ -153,14 +155,16 @@ class _SuccessfulPageState extends State<SuccessfulPage> {
               ),
               const Spacer(),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 34),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 80, vertical: 34),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.pumpkin.value,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(26),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 17, horizontal: 33),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 17, horizontal: 33),
                   ),
                   onPressed: _onContinuePressed,
                   child: Center(
@@ -201,7 +205,8 @@ class CustomRadioOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
+    final textTheme =
+        Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
 
     return ValueListenableBuilder<bool?>(
       valueListenable: groupValueNotifier,

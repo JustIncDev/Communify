@@ -14,4 +14,8 @@ abstract interface class IAuthRepository {
   Future<void> signInWithEmail(AuthRequest request);
 
   Future<bool> checkForBadWord(BadWordsRequest request);
+
+  Future<bool> signInWithTwitter();
+
+  Future<bool> signInWithDiscord();
 }

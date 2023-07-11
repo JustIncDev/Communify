@@ -69,7 +69,8 @@ class AppRouter {
               routes: [
                 GoRoute(
                   path: 'choose-network',
-                  pageBuilder: (context, state) => const CustomTransitionPage<void>(
+                  pageBuilder: (context, state) =>
+                      const CustomTransitionPage<void>(
                     child: ChooseNetworkPage(),
                     transitionsBuilder: _buildTransition,
                   ),
@@ -85,7 +86,8 @@ class AppRouter {
                 ),
                 GoRoute(
                   path: 'group/choose-theme',
-                  pageBuilder: (context, state) => const CustomTransitionPage<void>(
+                  pageBuilder: (context, state) =>
+                      const CustomTransitionPage<void>(
                     child: GroupThemePage(),
                     transitionsBuilder: _buildTransition,
                   ),
@@ -110,14 +112,16 @@ class AppRouter {
                 ),
                 GoRoute(
                   path: 'complete-profile/first',
-                  pageBuilder: (context, state) => const CustomTransitionPage<void>(
+                  pageBuilder: (context, state) =>
+                      const CustomTransitionPage<void>(
                     child: CompleteProfileDataPage(),
                     transitionsBuilder: _buildTransition,
                   ),
                 ),
                 GoRoute(
                   path: 'complete-profile/second',
-                  pageBuilder: (context, state) => const CustomTransitionPage<void>(
+                  pageBuilder: (context, state) =>
+                      const CustomTransitionPage<void>(
                     child: CompleteProfileSocialLinksPage(),
                     transitionsBuilder: _buildTransition,
                   ),
@@ -134,7 +138,8 @@ class AppRouter {
   }
 
   /// Methods that wrap the methods of GoRouter
-  String? get currentPath => _goRouter.routerDelegate.currentConfiguration.fullPath;
+  String? get currentPath =>
+      _goRouter.routerDelegate.currentConfiguration.fullPath;
 
   /// Router config
   RouterConfig<Object>? get routerConfig => _goRouter;

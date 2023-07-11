@@ -45,13 +45,15 @@ final class AuthRepositoryImpl implements IAuthRepository {
 
   @override
   Future<UserDomain?> signUpWithEmail(AuthRequest request) async {
-    final response = await _authRemoteDataSource.signUpWithEmail(request.email, request.password);
+    final response = await _authRemoteDataSource.signUpWithEmail(
+        request.email, request.password);
     return _getUserAndSessionData(response);
   }
 
   @override
   Future<UserDomain?> signInWithEmail(AuthRequest request) async {
-    final response = await _authRemoteDataSource.signInWithEmail(request.email, request.password);
+    final response = await _authRemoteDataSource.signInWithEmail(
+        request.email, request.password);
     return _getUserAndSessionData(response);
   }
 
@@ -80,5 +82,15 @@ final class AuthRepositoryImpl implements IAuthRepository {
     } else {
       return false;
     }
+  }
+
+  @override
+  Future<bool> signInWithDiscord() {
+    return _authRemoteDataSource.signInWithDiscord();
+  }
+
+  @override
+  Future<bool> signInWithTwitter() {
+    return _authRemoteDataSource.signInWithTwitter();
   }
 }

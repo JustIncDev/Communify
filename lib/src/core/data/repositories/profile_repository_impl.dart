@@ -1,5 +1,3 @@
-import 'package:intl/intl.dart';
-
 import '../../application/common/widgets/social_media_list_tile.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/profile_repository.dart';
@@ -10,7 +8,8 @@ import '../models/api_user.dart';
 final class ProfileRepositoryImpl implements IProfileRepository {
   final IProfileRemoteDataSource _profileRemoteDataSource;
 
-  ProfileRepositoryImpl() : _profileRemoteDataSource = ProfileRemoteDataSourceImpl();
+  ProfileRepositoryImpl()
+      : _profileRemoteDataSource = ProfileRemoteDataSourceImpl();
 
   @override
   Future<void> updateUserProfile(UserDomain user) async {
@@ -47,7 +46,8 @@ final class ProfileRepositoryImpl implements IProfileRepository {
   }
 
   @override
-  Future<void> addSocialProviders(Map<SocialMediaType, String> providers) async {
+  Future<void> addSocialProviders(
+      Map<SocialMediaType, String> providers) async {
     await _profileRemoteDataSource.addSocialProviders(providers);
   }
 }

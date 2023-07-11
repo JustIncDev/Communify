@@ -70,7 +70,8 @@ class ConnectScreen extends StatelessWidget {
 class GreetingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
+    final textTheme =
+        Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
     return Container(
       margin: const EdgeInsets.only(left: 42),
       child: RichText(
@@ -104,7 +105,8 @@ class _SocialComponentState extends State<_SocialComponent> {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
+    final textTheme =
+        Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
 
     return BlocConsumer<ConnectBloc, ConnectState>(
       listener: (context, state) {
@@ -141,7 +143,10 @@ class _SocialComponentState extends State<_SocialComponent> {
             AppColors.gainsboro.value.withOpacity(0),
           ],
           contentGradientStops: const [0.0, 0.65, 1.0],
-          borderGradientColors: [AppColors.suvaGrey.value, AppColors.pumpkin.value],
+          borderGradientColors: [
+            AppColors.suvaGrey.value,
+            AppColors.pumpkin.value
+          ],
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -150,7 +155,8 @@ class _SocialComponentState extends State<_SocialComponent> {
               PrimaryTextField(
                 hintText: S.current.email,
                 controller: _emailController,
-                errorText: state is ConnectInputError && state.errors.containsKey(FieldType.email)
+                errorText: state is ConnectInputError &&
+                        state.errors.containsKey(FieldType.email)
                     ? state.errors[FieldType.email]
                     : null,
                 keyboardType: TextInputType.emailAddress,
@@ -159,10 +165,10 @@ class _SocialComponentState extends State<_SocialComponent> {
               PrimaryTextField(
                 hintText: S.current.password,
                 controller: _passwordController,
-                errorText:
-                    state is ConnectInputError && state.errors.containsKey(FieldType.password)
-                        ? state.errors[FieldType.password]
-                        : null,
+                errorText: state is ConnectInputError &&
+                        state.errors.containsKey(FieldType.password)
+                    ? state.errors[FieldType.password]
+                    : null,
                 keyboardType: TextInputType.text,
                 obscureText: true,
               ),
@@ -170,7 +176,8 @@ class _SocialComponentState extends State<_SocialComponent> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: state is ConnectLoading ? null : _onContinuePressed,
+                  onPressed:
+                      state is ConnectLoading ? null : _onContinuePressed,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.blueCharcoal.value,
                     padding: const EdgeInsets.symmetric(vertical: 15),
@@ -202,23 +209,23 @@ class _SocialComponentState extends State<_SocialComponent> {
               ),
               const SizedBox(height: 8),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SocialButtonWidget(
-                    type: SocialNetworkType.apple,
-                    onPressed: () {},
-                  ),
-                  SocialButtonWidget(
-                    type: SocialNetworkType.google,
-                    onPressed: () {},
-                  ),
+                  // SocialButtonWidget(
+                  //   type: SocialNetworkType.apple,
+                  //   onPressed: () {},
+                  // ),
+                  // SocialButtonWidget(
+                  //   type: SocialNetworkType.google,
+                  //   onPressed: () {},
+                  // ),
                   SocialButtonWidget(
                     type: SocialNetworkType.twitter,
-                    onPressed: () {},
+                    onPressed: _onTwitterPressed,
                   ),
                   SocialButtonWidget(
                     type: SocialNetworkType.discord,
-                    onPressed: () {},
+                    onPressed: _onDiscordPressed,
                   ),
                 ],
               ),
@@ -237,6 +244,22 @@ class _SocialComponentState extends State<_SocialComponent> {
           ),
         );
   }
+
+  void _onTwitterPressed() {
+    context.read<ConnectBloc>().add(
+          ConnectSocialNetworkEvent(
+            SocialProviders.twitter,
+          ),
+        );
+  }
+
+  void _onDiscordPressed() {
+    context.read<ConnectBloc>().add(
+          ConnectSocialNetworkEvent(
+            SocialProviders.discord,
+          ),
+        );
+  }
 }
 
 class _WalletComponent extends StatefulWidget {
@@ -249,7 +272,8 @@ class _WalletComponentState extends State<_WalletComponent> {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
+    final textTheme =
+        Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
 
     final initialContent = Column(
       mainAxisSize: MainAxisSize.min,
@@ -317,7 +341,8 @@ class _WalletComponentState extends State<_WalletComponent> {
               backgroundColor: AppColors.pumpkin.value.withOpacity(0.1),
               padding: const EdgeInsets.symmetric(vertical: 15),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25), // set border radius here
+                borderRadius:
+                    BorderRadius.circular(25), // set border radius here
                 side: BorderSide(
                   color: AppColors.pumpkin.value.withOpacity(0.5),
                   width: 2,
@@ -353,7 +378,8 @@ class _WalletComponentState extends State<_WalletComponent> {
               backgroundColor: AppColors.summerSky.value.withOpacity(0.1),
               padding: const EdgeInsets.symmetric(vertical: 15),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25), // set border radius here
+                borderRadius:
+                    BorderRadius.circular(25), // set border radius here
                 side: BorderSide(
                   color: AppColors.summerSky.value.withOpacity(0.5),
                   width: 2,
@@ -398,7 +424,8 @@ class _WalletComponentState extends State<_WalletComponent> {
       child: AnimatedCrossFade(
         firstChild: initialContent,
         secondChild: expandedContent,
-        crossFadeState: _isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+        crossFadeState:
+            _isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
         duration: const Duration(milliseconds: 200),
       ),
     );

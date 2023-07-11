@@ -49,7 +49,8 @@ class _GroupNamePageState extends State<GroupNamePage> {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
+    final textTheme =
+        Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
 
     final appBar = PrimaryAppBar(
       leading: Center(
@@ -122,7 +123,8 @@ class _GroupNamePageState extends State<GroupNamePage> {
                             hintText: S.current.your_network,
                             controller: _nameTextController,
                             errorText: state is RegistrationInputError &&
-                                    state.errors.containsKey(FieldType.groupName)
+                                    state.errors
+                                        .containsKey(FieldType.groupName)
                                 ? state.errors[FieldType.groupName]
                                 : null,
                             keyboardType: TextInputType.text,
@@ -166,14 +168,16 @@ class _GroupNamePageState extends State<GroupNamePage> {
                           valueListenable: _isButtonEnabled,
                           builder: (context, value, child) {
                             return Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 80),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 80),
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColors.pumpkin.value,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(26),
                                   ),
-                                  padding: const EdgeInsets.symmetric(vertical: 17, horizontal: 33),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 17, horizontal: 33),
                                 ),
                                 onPressed: value ? _onContinuePressed : null,
                                 child: Center(
@@ -190,7 +194,9 @@ class _GroupNamePageState extends State<GroupNamePage> {
                             );
                           },
                         ),
-                        const SizedBox(height: 34), // Add extra space at the bottom if needed
+                        const SizedBox(
+                            height:
+                                34), // Add extra space at the bottom if needed
                       ],
                     ),
                   ),
@@ -231,7 +237,8 @@ class CustomRadioOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
+    final textTheme =
+        Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
 
     return ValueListenableBuilder<bool?>(
       valueListenable: groupValueNotifier,

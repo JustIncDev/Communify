@@ -27,7 +27,8 @@ class SocialMediaListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
+    final textTheme =
+        Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
 
     final (networkImage, networkName, textFieldHint) = switch (type) {
       SocialMediaType.twitter => (

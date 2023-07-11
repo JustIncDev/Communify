@@ -25,7 +25,8 @@ class CompleteProfileDataPage extends StatefulWidget {
   });
 
   @override
-  State<CompleteProfileDataPage> createState() => _CompleteProfileDataPageState();
+  State<CompleteProfileDataPage> createState() =>
+      _CompleteProfileDataPageState();
 }
 
 class _CompleteProfileDataPageState extends State<CompleteProfileDataPage> {
@@ -50,13 +51,15 @@ class _CompleteProfileDataPageState extends State<CompleteProfileDataPage> {
   }
 
   void _updateButtonState() {
-    final enableButton = _bioTextController.text.isNotEmpty || _image.value != null;
+    final enableButton =
+        _bioTextController.text.isNotEmpty || _image.value != null;
     _isButtonEnabled.value = enableButton;
   }
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
+    final textTheme =
+        Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
 
     return BlocConsumer<RegistrationBloc, RegistrationState>(
       listener: (context, state) {
@@ -131,7 +134,8 @@ class _CompleteProfileDataPageState extends State<CompleteProfileDataPage> {
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                       colors: [
-                                        AppColors.gainsboro.value.withOpacity(0.5),
+                                        AppColors.gainsboro.value
+                                            .withOpacity(0.5),
                                         AppColors.darkSlate.value,
                                       ],
                                     ),
@@ -145,7 +149,8 @@ class _CompleteProfileDataPageState extends State<CompleteProfileDataPage> {
                                           File(value.path),
                                           width: 150,
                                           height: 150,
-                                          fit: BoxFit.cover, // or BoxFit.contain
+                                          fit:
+                                              BoxFit.cover, // or BoxFit.contain
                                         ),
                                       )
                                     : AppAssets.images.photoIcon.image(),
@@ -190,7 +195,8 @@ class _CompleteProfileDataPageState extends State<CompleteProfileDataPage> {
                     valueListenable: _isButtonEnabled,
                     builder: (context, value, child) {
                       return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 34),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 35, vertical: 34),
                         child: Row(
                           children: [
                             Expanded(
@@ -201,7 +207,8 @@ class _CompleteProfileDataPageState extends State<CompleteProfileDataPage> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(26),
                                   ),
-                                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 33),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 33),
                                 ),
                                 onPressed: value ? _onContinuePressed : null,
                                 child: Center(
@@ -228,7 +235,8 @@ class _CompleteProfileDataPageState extends State<CompleteProfileDataPage> {
                                       color: AppColors.whiteSmoke.value,
                                     ),
                                   ),
-                                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 33),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 33),
                                 ),
                                 onPressed: _onSkipPressed,
                                 child: Center(
@@ -256,7 +264,8 @@ class _CompleteProfileDataPageState extends State<CompleteProfileDataPage> {
                         child: BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                           child: Container(
-                            color: AppColors.blueCharcoal.value.withOpacity(0.8),
+                            color:
+                                AppColors.blueCharcoal.value.withOpacity(0.8),
                           ),
                         ),
                       )

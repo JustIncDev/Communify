@@ -16,7 +16,8 @@ class ApiGroup {
     this.description,
   });
 
-  factory ApiGroup.fromJson(Map<String, dynamic> json) => _$ApiGroupFromJson(json);
+  factory ApiGroup.fromJson(Map<String, dynamic> json) =>
+      _$ApiGroupFromJson(json);
 
   Map<String, dynamic> toJson() => _$ApiGroupToJson(this);
 }

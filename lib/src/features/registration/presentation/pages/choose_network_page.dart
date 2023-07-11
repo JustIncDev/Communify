@@ -15,12 +15,14 @@ class ChooseNetworkPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
+    final textTheme =
+        Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
 
     return BlocListener<RegistrationBloc, RegistrationState>(
       listener: (context, state) {
         if (state is RegistrationChooseNetworkFinished) {
-          AppRouter.instance().go('/sign-up/credentials', extra: state.createGroup);
+          AppRouter.instance()
+              .go('/sign-up/credentials', extra: state.createGroup);
         }
       },
       child: Scaffold(
@@ -62,7 +64,8 @@ class ChooseNetworkPage extends StatelessWidget {
                         children: [
                           Expanded(
                             child: _ChoosingWidget(
-                              onPressed: () => _onStartCommunityPressed(context),
+                              onPressed: () =>
+                                  _onStartCommunityPressed(context),
                               firstPart: S.current.start_a,
                               secondPart: S.current.communify,
                               thirdPart: S.current.group,
@@ -122,7 +125,8 @@ class _ChoosingWidgetState extends State<_ChoosingWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
+    final textTheme =
+        Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
 
     final textChild = RichText(
       text: TextSpan(

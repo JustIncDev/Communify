@@ -18,6 +18,7 @@ abstract class ApiLayerService extends ApiService {
   Future<BadWordsResponse> checkForBadWord(
     @Body() Map<String, dynamic> body, [
     @Query('censor_character') String censorCharacter = '*',
-    @Header('apikey') String apiKey = const String.fromEnvironment('BAD_WORDS_API_URL'),
+    @Header('apikey')
+    String apiKey = const String.fromEnvironment('BAD_WORDS_API_URL'),
   ]);
 }

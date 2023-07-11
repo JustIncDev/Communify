@@ -29,7 +29,8 @@ class ProfileDetailsPage extends StatefulWidget {
 class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
+    final textTheme =
+        Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
 
     final appBar = PrimaryAppBar(
       title: S.current.already_have_account,
@@ -156,7 +157,8 @@ class _ProfileDetailsBodyWidget extends StatefulWidget {
   final VoidCallback onNext;
 
   @override
-  State<_ProfileDetailsBodyWidget> createState() => _ProfileDetailsBodyWidgetState();
+  State<_ProfileDetailsBodyWidget> createState() =>
+      _ProfileDetailsBodyWidgetState();
 }
 
 class _ProfileDetailsBodyWidgetState extends State<_ProfileDetailsBodyWidget> {
@@ -215,7 +217,10 @@ class _ProfileDetailsBodyWidgetState extends State<_ProfileDetailsBodyWidget> {
             AppColors.gainsboro.value.withOpacity(0),
           ],
           contentGradientStops: const [0.0, 0.65, 1.0],
-          borderGradientColors: [AppColors.suvaGrey.value, AppColors.pumpkin.value],
+          borderGradientColors: [
+            AppColors.suvaGrey.value,
+            AppColors.pumpkin.value
+          ],
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -258,10 +263,10 @@ class _ProfileDetailsBodyWidgetState extends State<_ProfileDetailsBodyWidget> {
                 hintText: S.current.username_hint,
                 labelText: S.current.username,
                 controller: _usernameController,
-                errorText:
-                    state is RegistrationInputError && state.errors.containsKey(FieldType.username)
-                        ? state.errors[FieldType.username]
-                        : null,
+                errorText: state is RegistrationInputError &&
+                        state.errors.containsKey(FieldType.username)
+                    ? state.errors[FieldType.username]
+                    : null,
                 keyboardType: TextInputType.text,
               ),
               const SizedBox(height: 30),
@@ -350,7 +355,8 @@ class _ProfileDetailsBodyWidgetState extends State<_ProfileDetailsBodyWidget> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(26),
                           ),
-                          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 33),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 33),
                           maximumSize: Size(
                             constraints.maxWidth - 120,
                             constraints.maxHeight,

@@ -15,7 +15,8 @@ class BadWordsResponse {
       required this.censoredContent,
       required this.badWordsList});
 
-  factory BadWordsResponse.fromJson(Map<String, dynamic> json) => _$BadWordsResponseFromJson(json);
+  factory BadWordsResponse.fromJson(Map<String, dynamic> json) =>
+      _$BadWordsResponseFromJson(json);
   Map<String, dynamic> toJson() => _$BadWordsResponseToJson(this);
 }
 
@@ -38,7 +39,8 @@ class BadWord {
       required this.start,
       required this.word});
 
-  factory BadWord.fromJson(Map<String, dynamic> json) => _$BadWordFromJson(json);
+  factory BadWord.fromJson(Map<String, dynamic> json) =>
+      _$BadWordFromJson(json);
   Map<String, dynamic> toJson() => _$BadWordToJson(this);
 }
 
@@ -48,6 +50,7 @@ class BadWordsRequest {
 
   BadWordsRequest({required this.body});
 
-  factory BadWordsRequest.fromJson(Map<String, dynamic> json) => _$BadWordsRequestFromJson(json);
+  factory BadWordsRequest.fromJson(Map<String, dynamic> json) =>
+      _$BadWordsRequestFromJson(json);
   Map<String, dynamic> toJson() => _$BadWordsRequestToJson(this);
 }

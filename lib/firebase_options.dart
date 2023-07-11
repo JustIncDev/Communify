@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1086098259161',
     projectId: 'communify-694a8',
     storageBucket: 'communify-694a8.appspot.com',
-    iosClientId: '1086098259161-e2q7r2b92e086vimeshunef178p7ds1j.apps.googleusercontent.com',
+    iosClientId:
+        '1086098259161-e2q7r2b92e086vimeshunef178p7ds1j.apps.googleusercontent.com',
     iosBundleId: 'com.app.communify',
   );
 }

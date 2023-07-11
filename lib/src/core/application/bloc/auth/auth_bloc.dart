@@ -18,7 +18,8 @@ final class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onAppStarted(AppStarted event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     try {
-      final isAuthenticated = await _authenticationRepository.isUserAuthenticated();
+      final isAuthenticated =
+          await _authenticationRepository.isUserAuthenticated();
       if (isAuthenticated) {
         emit(AuthAuthenticated());
       } else {

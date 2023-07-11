@@ -13,25 +13,32 @@ final class ProfileRemoteDataSourceImpl implements IProfileRemoteDataSource {
   Future<void> updateUserProfile(ApiUser userProfile) async {
     final updateData = Map<String, Object?>.fromEntries(
       [
-        if (userProfile.firstName != null) MapEntry('first_name', userProfile.firstName),
-        if (userProfile.lastName != null) MapEntry('last_name', userProfile.lastName),
+        if (userProfile.firstName != null)
+          MapEntry('first_name', userProfile.firstName),
+        if (userProfile.lastName != null)
+          MapEntry('last_name', userProfile.lastName),
         if (userProfile.dateOfBirth != null)
           MapEntry('date_of_birth', userProfile.dateOfBirth?.toIso8601String()),
-        if (userProfile.username != null) MapEntry('username', userProfile.username),
+        if (userProfile.username != null)
+          MapEntry('username', userProfile.username),
         if (userProfile.avatar != null) MapEntry('avatar', userProfile.avatar),
         if (userProfile.bio != null) MapEntry('bio', userProfile.bio),
       ],
     );
 
     if (updateData.isNotEmpty) {
-      await _supabaseClient.from('users').update(updateData).eq('id', userProfile.id);
+      await _supabaseClient
+          .from('users')
+          .update(updateData)
+          .eq('id', userProfile.id);
     } else {
       return Future.error('No fields to update');
     }
   }
 
   @override
-  Future<void> addSocialProviders(Map<SocialMediaType, String> providers) async {
+  Future<void> addSocialProviders(
+      Map<SocialMediaType, String> providers) async {
     if (providers.isNotEmpty) {
       final rows = <Map<String, Object>>[];
       final userId = _supabaseClient.auth.currentUser?.id;
@@ -58,8 +65,11 @@ final class ProfileRemoteDataSourceImpl implements IProfileRemoteDataSource {
       throw Exception('User is not logged in');
     }
 
-    final response =
-        await _supabaseClient.from('users').select<PostgrestMap>('*').eq('id', userId).single();
+    final response = await _supabaseClient
+        .from('users')
+        .select<PostgrestMap>('*')
+        .eq('id', userId)
+        .single();
 
     if (response != null) {
       return ApiUser.fromJson(response);

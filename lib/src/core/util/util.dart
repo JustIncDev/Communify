@@ -109,7 +109,8 @@ String? validateDateOfBirth(String? dateOfBirth) {
   }
 
   // Check if the user is at least 13 years old
-  final thirteenYearsAgo = DateTime.now().subtract(const Duration(days: 13 * 365));
+  final thirteenYearsAgo =
+      DateTime.now().subtract(const Duration(days: 13 * 365));
   if (parsedDate.isAfter(thirteenYearsAgo)) {
     return 'You must be at least 13 years old';
   }

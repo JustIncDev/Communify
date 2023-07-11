@@ -34,7 +34,10 @@ class GradientInputBorder extends InputBorder {
   Path getInnerPath(Rect rect, {TextDirection? textDirection}) {
     return Path()
       ..addRRect(
-        borderRadius.resolve(textDirection).toRRect(rect).deflate(borderSide.width),
+        borderRadius
+            .resolve(textDirection)
+            .toRRect(rect)
+            .deflate(borderSide.width),
       );
   }
 
@@ -58,7 +61,8 @@ class GradientInputBorder extends InputBorder {
     if (gapStart == null || gapExtent <= 0.0 || gapPercentage == 0.0) {
       canvas.drawRRect(center, paint);
     } else {
-      final extent = lerpDouble(0.0, gapExtent + gapPadding * 2.0, gapPercentage)!;
+      final extent =
+          lerpDouble(0.0, gapExtent + gapPadding * 2.0, gapPercentage)!;
       switch (textDirection!) {
         case TextDirection.rtl:
           final path = _gapBorderPath(

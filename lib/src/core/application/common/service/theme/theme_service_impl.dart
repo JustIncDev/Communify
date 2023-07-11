@@ -14,7 +14,9 @@ class ThemeServiceImpl extends IThemeService {
 
   @override
   void switchTheme() {
-    _themeMode == ThemeMode.light ? _themeMode = ThemeMode.dark : _themeMode = ThemeMode.light;
+    _themeMode == ThemeMode.light
+        ? _themeMode = ThemeMode.dark
+        : _themeMode = ThemeMode.light;
     notifyListeners();
   }
 

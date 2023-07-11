@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:log_service/lib.dart';
 
@@ -44,7 +43,8 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
   final IGroupRepository _groupRepository;
   final IStorageRepository _storageRepository;
 
-  void _onGroupTypeSelected(RegistrationGroupEvent event, Emitter<RegistrationState> emit) {
+  void _onGroupTypeSelected(
+      RegistrationGroupEvent event, Emitter<RegistrationState> emit) {
     if (event is RegistrationJoinGroupEvent) {
       emit(RegistrationChooseNetworkFinished(createGroup: false));
     } else if (event is RegistrationCreateGroupEvent) {
@@ -52,7 +52,8 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     }
   }
 
-  Future<void> _onAgreeEvent(RegistrationAgreeEvent event, Emitter<RegistrationState> emit) async {
+  Future<void> _onAgreeEvent(
+      RegistrationAgreeEvent event, Emitter<RegistrationState> emit) async {
     try {
       emit(RegistrationLoading());
       final result = await _validateFields(event, emit);
@@ -131,8 +132,10 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
         emit(RegistrationInputError(errors: errorMessages));
         return;
       }
-      final request =
-          Group(groupName: event.groupName, groupTheme: event.groupTheme, description: '');
+      final request = Group(
+          groupName: event.groupName,
+          groupTheme: event.groupTheme,
+          description: '');
       await _groupRepository.createGroup(request);
       emit(RegistrationFinishGroupCreateState(event.groupName));
     } on Object catch (e, s) {
@@ -148,7 +151,8 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     try {
       emit(RegistrationLoading());
       final response = await _profileRepository.getUserProfile();
-      emit(RegistrationFinishInitializeSuccessState(response.username ?? 'Name'));
+      emit(RegistrationFinishInitializeSuccessState(
+          response.username ?? 'Name'));
     } on Object catch (e, s) {
       logger.logError(message: e.toString(), error: e, stackTrace: s);
       emit(RegistrationFailure(e.toString()));

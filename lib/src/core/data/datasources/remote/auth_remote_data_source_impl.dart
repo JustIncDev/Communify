@@ -30,6 +30,16 @@ final class AuthRemoteDataSourceImpl implements IAuthRemoteDataSource {
   }
 
   @override
+  Future<bool> signInWithTwitter() async {
+    return _supabaseClient.auth.signInWithOAuth(Provider.twitter);
+  }
+
+  @override
+  Future<bool> signInWithDiscord() async {
+    return _supabaseClient.auth.signInWithOAuth(Provider.discord);
+  }
+
+  @override
   Future<User?> getCurrentUser() async {
     return _supabaseClient.auth.currentUser;
   }

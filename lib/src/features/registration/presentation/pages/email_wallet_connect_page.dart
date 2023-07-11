@@ -50,7 +50,8 @@ class EmailWalletConnectPage extends StatelessWidget {
 class GreetingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
+    final textTheme =
+        Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
     return Container(
       margin: const EdgeInsets.only(left: 42),
       child: RichText(
@@ -80,7 +81,8 @@ class SocialWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
+    final textTheme =
+        Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
 
     return BaseContainerWidget(
       padding: const EdgeInsets.only(
@@ -177,7 +179,8 @@ class _WalletWidgetState extends State<WalletWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
+    final textTheme =
+        Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
 
     final initialContent = Column(
       mainAxisSize: MainAxisSize.min,
@@ -245,7 +248,8 @@ class _WalletWidgetState extends State<WalletWidget> {
               backgroundColor: AppColors.pumpkin.value.withOpacity(0.1),
               padding: const EdgeInsets.symmetric(vertical: 15),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25), // set border radius here
+                borderRadius:
+                    BorderRadius.circular(25), // set border radius here
                 side: BorderSide(
                   color: AppColors.pumpkin.value.withOpacity(0.5),
                   width: 2,
@@ -281,7 +285,8 @@ class _WalletWidgetState extends State<WalletWidget> {
               backgroundColor: AppColors.summerSky.value.withOpacity(0.1),
               padding: const EdgeInsets.symmetric(vertical: 15),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25), // set border radius here
+                borderRadius:
+                    BorderRadius.circular(25), // set border radius here
                 side: BorderSide(
                   color: AppColors.summerSky.value.withOpacity(0.5),
                   width: 2,
@@ -326,7 +331,8 @@ class _WalletWidgetState extends State<WalletWidget> {
       child: AnimatedCrossFade(
         firstChild: initialContent,
         secondChild: expandedContent,
-        crossFadeState: _isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+        crossFadeState:
+            _isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
         duration: const Duration(milliseconds: 200),
       ),
     );

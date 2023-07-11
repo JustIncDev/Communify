@@ -7,6 +7,10 @@ abstract interface class IAuthRemoteDataSource {
 
   Future<AuthResponse> signInWithEmail(String email, String password);
 
+  Future<bool> signInWithTwitter();
+
+  Future<bool> signInWithDiscord();
+
   Future<User?> getCurrentUser();
 
   Future<BadWordsResponse> checkForBadWord(BadWordsRequest request);

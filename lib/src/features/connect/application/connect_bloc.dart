@@ -1,10 +1,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:log_service/lib.dart';
-import 'package:retrofit/http.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/domain/entities/auth_request.dart';
@@ -21,11 +19,13 @@ class ConnectBloc extends Bloc<ConnectEvent, ConnectState> {
       : _authRepository = authRepository,
         super(ConnectInitial()) {
     on<ConnectEmailEvent>(_onSignUpWithEmail);
+    on<ConnectSocialNetworkEvent>(_onConnectSocialNetwork);
   }
 
   final IAuthRepository _authRepository;
 
-  Future<void> _onSignUpWithEmail(ConnectEmailEvent event, Emitter<ConnectState> emit) async {
+  Future<void> _onSignUpWithEmail(
+      ConnectEmailEvent event, Emitter<ConnectState> emit) async {
     final validationEmailMessage = validateEmail(event.email);
     final validationPasswordMessage = validatePassword(event.password);
 
@@ -70,7 +70,8 @@ class ConnectBloc extends Bloc<ConnectEvent, ConnectState> {
     }
   }
 
-  Future<void> _onSignInWithEmail(ConnectEmailEvent event, Emitter<ConnectState> emit) async {
+  Future<void> _onSignInWithEmail(
+      ConnectEmailEvent event, Emitter<ConnectState> emit) async {
     try {
       await _authRepository.signInWithEmail(
         AuthRequest(
@@ -83,6 +84,31 @@ class ConnectBloc extends Bloc<ConnectEvent, ConnectState> {
       final errorType = getTypeFromMessage(e.message);
       if (errorType == ServerError.invalidCredentials) {
         emit(ConnectFailure(e.message));
+      }
+    } on Object catch (e, s) {
+      logger.logError(message: e.toString(), error: e, stackTrace: s);
+      emit(ConnectFailure(e.toString()));
+    }
+  }
+
+  Future<void> _onConnectSocialNetwork(
+      ConnectSocialNetworkEvent event, Emitter<ConnectState> emit) async {
+    try {
+      emit(ConnectLoading());
+      if (event.socialMediaType == SocialProviders.twitter) {
+        final result = await _authRepository.signInWithTwitter();
+        if (result) {
+          emit(ConnectRegistrationSuccess());
+        } else {
+          throw Exception('Error during twitter login');
+        }
+      } else if (event.socialMediaType == SocialProviders.discord) {
+        final result = await _authRepository.signInWithDiscord();
+        if (result) {
+          emit(ConnectRegistrationSuccess());
+        } else {
+          throw Exception('Error during discord login');
+        }
       }
     } on Object catch (e, s) {
       logger.logError(message: e.toString(), error: e, stackTrace: s);

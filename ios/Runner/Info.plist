@@ -47,14 +47,20 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-
-    <!-- Permission options for the `photos` group -->
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>photos</string>
-
-    <!-- Permission options for the `camera` group -->
-    <key>NSCameraUsageDescription</key>
-    <string>camera</string>
-
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>photos</string>
+	<key>NSCameraUsageDescription</key>
+	<string>camera</string>
+	<key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+        <key>CFBundleURLName</key>
+        <string>com.app.communify</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>communify</string>
+        </array>
+      </dict>
+    </array>
 </dict>
 </plist>

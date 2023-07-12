@@ -101,7 +101,9 @@ class _SocialComponent extends StatefulWidget {
 
 class _SocialComponentState extends State<_SocialComponent> {
   final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  late final _passwordController = TextEditingController();
+
+  ValueNotifier<bool> showPasswordField = ValueNotifier(true);
 
   @override
   Widget build(BuildContext context) {
@@ -115,18 +117,9 @@ class _SocialComponentState extends State<_SocialComponent> {
         } else if (state is ConnectRegistrationSuccess) {
           AppRouter.instance().go('/sign-up/choose-network');
         } else if (state is ConnectFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: AppColors.grape.value,
-              content: Text(
-                state.message,
-                style: textTheme.medium15.copyWith(
-                  color: AppColors.whiteSmoke.value,
-                  fontFamily: 'Montserrat',
-                ),
-              ),
-            ),
-          );
+          showCustomSnackBar(context, state.message);
+        } else if (state is ConnectEmailLoginFailure) {
+          showPasswordField.value = true;
         }
       },
       builder: (context, state) {
@@ -162,17 +155,28 @@ class _SocialComponentState extends State<_SocialComponent> {
                 keyboardType: TextInputType.emailAddress,
               ),
               const SizedBox(height: 8),
-              PrimaryTextField(
-                hintText: S.current.password,
-                controller: _passwordController,
-                errorText: state is ConnectInputError &&
-                        state.errors.containsKey(FieldType.password)
-                    ? state.errors[FieldType.password]
-                    : null,
-                keyboardType: TextInputType.text,
-                obscureText: true,
+              ValueListenableBuilder(
+                valueListenable: showPasswordField,
+                builder: (context, value, child) {
+                  return AnimatedOpacity(
+                    opacity: value ? 1.0 : 0.0,
+                    duration: const Duration(milliseconds: 500),
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: PrimaryTextField(
+                        hintText: S.current.password,
+                        controller: _passwordController,
+                        errorText: state is ConnectInputError &&
+                                state.errors.containsKey(FieldType.password)
+                            ? state.errors[FieldType.password]
+                            : null,
+                        keyboardType: TextInputType.text,
+                        obscureText: true,
+                      ),
+                    ),
+                  );
+                },
               ),
-              const SizedBox(height: 8),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -259,6 +263,37 @@ class _SocialComponentState extends State<_SocialComponent> {
             SocialProviders.discord,
           ),
         );
+  }
+
+  void showCustomSnackBar(BuildContext context, String message) {
+    final textTheme =
+        Theme.of(context).extension<AppTextTheme>() ?? AppTextTheme.base();
+
+    final overlayState = Overlay.of(context);
+    final overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        bottom: 20,
+        left: 23,
+        right: 23,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 12),
+          decoration: BoxDecoration(
+            color: const Color(0xFF3A3E41),
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Text(
+            message,
+            style: textTheme.regular15.copyWith(
+              color: AppColors.whiteSmoke.value,
+              fontFamily: 'Karla',
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ),
+      ),
+    );
+    overlayState.insert(overlayEntry);
+    Future.delayed(const Duration(seconds: 3), overlayEntry.remove);
   }
 }
 

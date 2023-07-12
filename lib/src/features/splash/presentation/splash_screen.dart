@@ -40,8 +40,16 @@ class _SplashScreenState extends State<SplashScreen> {
               }
             },
           );
-        }
-        if (authState is AuthAuthenticated) {
+        } else if (authState is AuthRegistrationNotFinished) {
+          Future.delayed(
+            const Duration(seconds: 1),
+            () {
+              if (mounted) {
+                AppRouter.instance().go('/sign-up/choose-network');
+              }
+            },
+          );
+        } else if (authState is AuthAuthenticated) {
           Future.delayed(
             const Duration(seconds: 1),
             () {

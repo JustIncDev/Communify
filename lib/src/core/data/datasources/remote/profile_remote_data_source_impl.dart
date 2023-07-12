@@ -45,11 +45,8 @@ final class ProfileRemoteDataSourceImpl implements IProfileRemoteDataSource {
       if (userId != null) {
         for (final entry in providers.entries) {
           final provider = entry.key.toString().split('.').last;
-          final link = entry.value;
           rows.add({
             'provider': provider,
-            'provider_id': link,
-            'token': '',
             'user_id': userId,
           });
         }

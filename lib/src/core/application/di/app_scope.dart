@@ -5,6 +5,7 @@ import 'package:log_service/lib.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../data/repositories/auth_repository_impl.dart';
+import '../../data/repositories/profile_repository_impl.dart';
 import '../../util/config/app_config.dart';
 import '../../util/config/environment/environment.dart';
 import '../bloc/auth/auth_bloc.dart';
@@ -55,6 +56,7 @@ class AppScope implements IAppScope {
     /// Global BLoCs initialization
     _authBloc = AuthBloc(
       authenticationRepository: AuthRepositoryImpl(_dio),
+      profileRepository: ProfileRepositoryImpl(),
       initState: AuthInitial(),
     );
 

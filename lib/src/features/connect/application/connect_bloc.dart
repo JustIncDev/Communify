@@ -7,6 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/domain/entities/auth_request.dart';
 import '../../../core/domain/repositories/auth_repository.dart';
+import '../../../core/domain/repositories/profile_repository.dart';
 import '../../../core/util/api_error.dart';
 import '../../../core/util/enum.dart';
 import '../../../core/util/util.dart';
@@ -15,14 +16,32 @@ part 'connect_event.dart';
 part 'connect_state.dart';
 
 class ConnectBloc extends Bloc<ConnectEvent, ConnectState> {
-  ConnectBloc(IAuthRepository authRepository)
-      : _authRepository = authRepository,
+  ConnectBloc(
+    IAuthRepository authRepository,
+    IProfileRepository profileRepository,
+  )   : _authRepository = authRepository,
+        _profileRepository = profileRepository,
         super(ConnectInitial()) {
     on<ConnectEmailEvent>(_onSignUpWithEmail);
     on<ConnectSocialNetworkEvent>(_onConnectSocialNetwork);
+
+    _authStateSubscription =
+        Supabase.instance.client.auth.onAuthStateChange.listen((event) {
+      if (event.event == AuthChangeEvent.signedIn) {
+        _handleConnectResult();
+      }
+    });
   }
 
   final IAuthRepository _authRepository;
+  final IProfileRepository _profileRepository;
+  StreamSubscription? _authStateSubscription;
+
+  @override
+  Future<void> close() {
+    _authStateSubscription?.cancel();
+    return super.close();
+  }
 
   Future<void> _onSignUpWithEmail(
       ConnectEmailEvent event, Emitter<ConnectState> emit) async {
@@ -95,24 +114,27 @@ class ConnectBloc extends Bloc<ConnectEvent, ConnectState> {
       ConnectSocialNetworkEvent event, Emitter<ConnectState> emit) async {
     try {
       emit(ConnectLoading());
+      var result = false;
       if (event.socialMediaType == SocialProviders.twitter) {
-        final result = await _authRepository.signInWithTwitter();
-        if (result) {
-          emit(ConnectRegistrationSuccess());
-        } else {
-          throw Exception('Error during twitter login');
-        }
+        result = await _authRepository.signInWithTwitter();
       } else if (event.socialMediaType == SocialProviders.discord) {
-        final result = await _authRepository.signInWithDiscord();
-        if (result) {
-          emit(ConnectRegistrationSuccess());
-        } else {
-          throw Exception('Error during discord login');
-        }
+        result = await _authRepository.signInWithDiscord();
+      }
+      if (!result) {
+        throw Exception('Error during ${event.socialMediaType} login');
       }
     } on Object catch (e, s) {
       logger.logError(message: e.toString(), error: e, stackTrace: s);
       emit(ConnectFailure(e.toString()));
+    }
+  }
+
+  Future<void> _handleConnectResult() async {
+    final userData = await _profileRepository.getUserProfile();
+    if (userData.username != null) {
+      emit(ConnectLoginSuccess());
+    } else {
+      emit(ConnectRegistrationSuccess());
     }
   }
 }

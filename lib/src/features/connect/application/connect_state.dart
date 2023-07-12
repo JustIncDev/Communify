@@ -39,3 +39,8 @@ final class ConnectInputError extends ConnectState {
   @override
   List<Object?> get props => [errors];
 }
+
+final class ConnectEmailLoginFailure extends ConnectState {
+  @override
+  List<Object?> get props => [];
+}

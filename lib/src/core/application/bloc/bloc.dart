@@ -16,7 +16,10 @@ final class BlocFactory {
   final Dio dio;
 
   ConnectBloc createConnectBloc() {
-    return ConnectBloc(AuthRepositoryImpl(dio));
+    return ConnectBloc(
+      AuthRepositoryImpl(dio),
+      ProfileRepositoryImpl(),
+    );
   }
 
   RegistrationBloc createRegistrationBloc() {

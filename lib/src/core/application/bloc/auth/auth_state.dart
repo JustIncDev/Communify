@@ -19,6 +19,11 @@ final class AuthAuthenticated extends AuthState {
   List<Object?> get props => [];
 }
 
+final class AuthRegistrationNotFinished extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
+
 final class AuthUnauthenticated extends AuthState {
   AuthUnauthenticated();
 

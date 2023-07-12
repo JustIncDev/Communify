@@ -54,8 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _onSignOutPressed() {
-    Supabase.instance.client.auth.signOut();
+  Future<void> _onSignOutPressed() async {
+    await Supabase.instance.client.auth.signOut();
     AppRouter.instance().go('/login');
   }
 

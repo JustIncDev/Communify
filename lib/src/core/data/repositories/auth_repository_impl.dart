@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:gotrue/src/types/auth_response.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../domain/entities/auth_request.dart';
 import '../../domain/entities/user.dart';
